@@ -14,4 +14,5 @@ public class UsuarioRequestDTO {
     private String email;
     private String senha;
     private Integer idCurso;
+    private Integer status;
 }

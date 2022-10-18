@@ -24,7 +24,20 @@ public class RegisterController {
     @PostMapping("/register")
     public TipoUsuario registrar(@RequestBody UsuarioRequestDTO userDto) {
         Usuario user = new Usuario();
-        user.setStatus(1);
+        user.setStatus(2);
+        user.setMatricula(userDto.getMatricula());
+        user.setSenha(passwordEncoder.encode(userDto.getSenha()));
+        user.setEmail(userDto.getEmail());
+        user.setIdCurso(userDto.getIdCurso());
+
+        return tipoUsuarioService.save(user);
+    }
+
+    @PostMapping("/adminRegister")
+    public TipoUsuario registrarAdmin(@RequestBody UsuarioRequestDTO userDto) {
+        Usuario user = new Usuario();
+        user.setStatus(userDto.getStatus());
+        user.setMatricula(userDto.getMatricula());
         user.setSenha(passwordEncoder.encode(userDto.getSenha()));
         user.setEmail(userDto.getEmail());
         user.setIdCurso(userDto.getIdCurso());
