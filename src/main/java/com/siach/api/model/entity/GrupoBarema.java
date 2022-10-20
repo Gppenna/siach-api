@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 public class GrupoBarema {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_GRUPO_BAREMA")
-    @SequenceGenerator(name = "SQ_GRUPO_BAREMA", sequenceName = "SQ_GRUPO_BAREMA", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GRUPO_BAREMA_SEQ")
+    @SequenceGenerator(name = "GRUPO_BAREMA_SEQ", sequenceName = "GRUPO_BAREMA_SEQ", allocationSize = 1)
     @Column(name = "ID_GRUPO_BAREMA")
     private Long id;
 
