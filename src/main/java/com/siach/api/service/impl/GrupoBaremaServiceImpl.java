@@ -1,5 +1,6 @@
 package com.siach.api.service.impl;
 
+import com.siach.api.model.dto.GrupoBaremaRequestDTO;
 import com.siach.api.model.entity.GrupoBarema;
 import com.siach.api.repository.GrupoBaremaRepository;
 import com.siach.api.service.GrupoBaremaService;
@@ -28,5 +29,23 @@ public class GrupoBaremaServiceImpl implements GrupoBaremaService {
     public GrupoBarema getById(Long id) {
         return grupoBaremaRepository.findById(id).get();
     }
+
+    @Override
+    public GrupoBarema save(GrupoBaremaRequestDTO grupoBaremaRequestDTO) {
+        GrupoBarema grupoBarema = GrupoBarema.builder()
+                .idCurso(grupoBaremaRequestDTO.getIdCurso())
+                .descricao(grupoBaremaRequestDTO.getDescricao())
+                .minimoHoras(grupoBaremaRequestDTO.getMinimoHoras())
+                .numero(grupoBaremaRequestDTO.getNumero())
+                .build();
+        return grupoBaremaRepository.save(grupoBarema);
+    }
+
+    @Override
+    public List<GrupoBarema> getAll() {
+        return grupoBaremaRepository.findAll();
+    }
+
+
 
 }

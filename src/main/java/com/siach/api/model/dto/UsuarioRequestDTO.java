@@ -13,6 +13,6 @@ public class UsuarioRequestDTO {
     private String nome;
     private String email;
     private String senha;
-    private Integer idCurso;
-    private Integer status;
+    private Long idCurso;
+    private Long status;
 }

@@ -32,8 +32,8 @@ public class Usuario {
     private String senha;
 
     @Column(name = "ID_CURSO")
-    private Integer idCurso;
+    private Long idCurso;
 
     @Column(name = "STATUS")
-    private Integer status;
+    private Long status;
 }

@@ -1,6 +1,14 @@
 spring:
     application:
         name: siach-api
+    redis:
+        host: localhost
+        port: 6379
+    session:
+        store-type: jdbc
+        initialize-schema: embedded
+        schema: classpath:org/springframework/session/jdbc/schema-@@platform@@.sql
+        table-name: SPRING_SESSION
     flyway:
         enabled: true
     security:
@@ -10,6 +18,7 @@ spring:
             password: test
     main:
         allow-circular-references: true
+        allow-bean-definition-overriding: true
     mvc:
         pathmatch:
             matching-strategy: ant_path_matcher

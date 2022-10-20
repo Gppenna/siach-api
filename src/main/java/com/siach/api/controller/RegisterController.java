@@ -24,7 +24,7 @@ public class RegisterController {
     @PostMapping("/register")
     public TipoUsuario registrar(@RequestBody UsuarioRequestDTO userDto) {
         Usuario user = new Usuario();
-        user.setStatus(2);
+        user.setStatus(2L);
         user.setMatricula(userDto.getMatricula());
         user.setSenha(passwordEncoder.encode(userDto.getSenha()));
         user.setEmail(userDto.getEmail());

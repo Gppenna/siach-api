@@ -20,7 +20,7 @@ public class TipoUsuario {
     private Long id;
 
     @Column(name = "ACESSO")
-    private Integer acesso;
+    private Long acesso;
 
     @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")

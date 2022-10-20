@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 public class GrupoBarema {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_GRUPO_BAREMA")
+    @SequenceGenerator(name = "SQ_GRUPO_BAREMA", sequenceName = "SQ_GRUPO_BAREMA", allocationSize = 1)
     @Column(name = "ID_GRUPO_BAREMA")
     private Long id;
 
@@ -23,13 +24,16 @@ public class GrupoBarema {
     private String descricao;
 
     @Column(name = "MINIMO_HORAS")
-    private Integer minimoHoras;
+    private Long minimoHoras;
 
     @Column(name = "NUMERO")
-    private Integer numero;
+    private Long numero;
 
     @ManyToOne
-    @JoinColumn(name = "ID_CURSO", referencedColumnName = "ID_CURSO")
+    @JoinColumn(name = "ID_CURSO", referencedColumnName = "ID_CURSO", insertable = false, updatable = false)
     private Curso curso;
+
+    @Column(name = "ID_CURSO")
+    private Long idCurso;
 
 }

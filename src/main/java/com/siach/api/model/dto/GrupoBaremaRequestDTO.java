@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class GrupoBaremaRequestDTO {
     private String descricao;
-    private Integer minimoHoras;
-    private Integer numero;
-    private Curso curso;
+    private Long minimoHoras;
+    private Long numero;
+    private Long idCurso;
 }
 

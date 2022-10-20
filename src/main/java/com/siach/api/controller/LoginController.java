@@ -14,7 +14,7 @@ import java.util.Base64;
 @Getter
 @Setter
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 public class LoginController {
 
     @Autowired
