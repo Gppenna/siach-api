@@ -5,4 +5,6 @@ import com.siach.api.model.entity.Usuario;
 
 public interface TipoUsuarioService {
     TipoUsuario save(Usuario usuario);
+
+    TipoUsuario saveAdmin(Usuario usuario);
 }

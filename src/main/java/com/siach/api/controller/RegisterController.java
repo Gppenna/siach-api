@@ -24,11 +24,13 @@ public class RegisterController {
     @PostMapping("/register")
     public TipoUsuario registrar(@RequestBody UsuarioRequestDTO userDto) {
         Usuario user = new Usuario();
-        user.setStatus(2L);
+
         user.setMatricula(userDto.getMatricula());
         user.setSenha(passwordEncoder.encode(userDto.getSenha()));
         user.setEmail(userDto.getEmail());
+        user.setNome(userDto.getNome());
         user.setIdCurso(userDto.getIdCurso());
+        user.setStatus(1L);
 
         return tipoUsuarioService.save(user);
     }
@@ -36,12 +38,14 @@ public class RegisterController {
     @PostMapping("/adminRegister")
     public TipoUsuario registrarAdmin(@RequestBody UsuarioRequestDTO userDto) {
         Usuario user = new Usuario();
-        user.setStatus(userDto.getStatus());
+
         user.setMatricula(userDto.getMatricula());
         user.setSenha(passwordEncoder.encode(userDto.getSenha()));
         user.setEmail(userDto.getEmail());
+        user.setNome(userDto.getNome());
         user.setIdCurso(userDto.getIdCurso());
+        user.setStatus(1L);
 
-        return tipoUsuarioService.save(user);
+        return tipoUsuarioService.saveAdmin(user);
     }
 }

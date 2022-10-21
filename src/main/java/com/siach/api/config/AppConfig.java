@@ -1,6 +1,6 @@
 package com.siach.api.config;
 
-import com.sun.istack.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "app")
 public class AppConfig {
-    @NotNull
+    @Value("${app.url}")
     private String appUrl;
 
     public String getAppUrl() {
