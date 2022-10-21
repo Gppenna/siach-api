@@ -30,7 +30,7 @@ public class TipoUsuarioServiceImpl implements TipoUsuarioService {
     @Override
     public TipoUsuario saveAdmin(Usuario usuario) {
         TipoUsuario tipoUsuario = new TipoUsuario();
-        tipoUsuario.setAcesso(2L);
+        tipoUsuario.setAcesso(1L);
         tipoUsuario.setUsuario(usuario);
         return tipoUsuarioRepository.save(tipoUsuario);
     }
