@@ -69,11 +69,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout(logout -> logout
                 .addLogoutHandler((request, response, auth) -> {
-                    for (Cookie cookie : request.getCookies()) {
-                        String cookieName = cookie.getName();
-                        Cookie cookieToDelete = new Cookie(cookieName, null);
-                        cookieToDelete.setMaxAge(0);
-                        response.addCookie(cookieToDelete);
+                    Cookie[] cookies = request.getCookies();
+                    if(cookies != null && cookies.length != 0) {
+                        for (Cookie cookie : request.getCookies()) {
+                            String cookieName = cookie.getName();
+                            Cookie cookieToDelete = new Cookie(cookieName, null);
+                            cookieToDelete.setMaxAge(0);
+                            response.addCookie(cookieToDelete);
+                        }
                     }
                     try {
                         request.logout();
