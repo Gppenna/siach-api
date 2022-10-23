@@ -23,6 +23,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.findByEmailAndSenha(email, senha);
     }
 
+    @Override
+    public Usuario findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
 
 
 }

@@ -6,5 +6,6 @@ import com.siach.api.model.entity.Usuario;
 public interface UsuarioService {
 
     Usuario findByEmailAndSenha(String email, String senha);
+    Usuario findByEmail(String email);
 
 }
