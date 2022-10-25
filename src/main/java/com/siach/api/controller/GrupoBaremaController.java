@@ -2,6 +2,7 @@ package com.siach.api.controller;
 
 
 import com.siach.api.model.dto.GrupoBaremaRequestDTO;
+import com.siach.api.model.dto.GrupoBaremaResponseDTO;
 import com.siach.api.model.entity.GrupoBarema;
 import com.siach.api.service.GrupoBaremaService;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.List;
 @Setter
 @RestController
 @CrossOrigin
-@RequestMapping("/barema")
+@RequestMapping("/grupo-barema")
 public class GrupoBaremaController {
 
     @Autowired
@@ -32,7 +33,7 @@ public class GrupoBaremaController {
     }
 
     @GetMapping("/table")
-    public ResponseEntity<List<GrupoBarema>> getAll() {
+    public ResponseEntity<List<GrupoBaremaResponseDTO>> getAll() {
         return ResponseEntity.ok(grupoBaremaService.getAll());
     }
 

@@ -1,10 +1,8 @@
 package com.siach.api.model.dto;
 
 import com.siach.api.model.entity.AtividadeBarema;
-import com.siach.api.model.entity.Curso;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -12,10 +10,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GrupoBaremaRequestDTO {
+public class GrupoBaremaResponseDTO {
+    private Long id;
     private String descricao;
     private Long minimoHoras;
     private Long numero;
-    private Long idCurso;
+    private List<AtividadeBarema> atividadeBaremaList;
 }
 

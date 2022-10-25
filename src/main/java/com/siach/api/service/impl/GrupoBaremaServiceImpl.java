@@ -1,28 +1,29 @@
 package com.siach.api.service.impl;
 
 import com.siach.api.model.dto.GrupoBaremaRequestDTO;
+import com.siach.api.model.dto.GrupoBaremaResponseDTO;
+import com.siach.api.model.entity.AtividadeBarema;
 import com.siach.api.model.entity.GrupoBarema;
 import com.siach.api.repository.GrupoBaremaRepository;
+import com.siach.api.service.AtividadeBaremaService;
 import com.siach.api.service.GrupoBaremaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class GrupoBaremaServiceImpl implements GrupoBaremaService {
 
     private final GrupoBaremaRepository grupoBaremaRepository;
 
+    private final AtividadeBaremaService atividadeBaremaService;
+
     @Autowired
-    public GrupoBaremaServiceImpl(GrupoBaremaRepository grupoBaremaRepository) {
+    public GrupoBaremaServiceImpl(GrupoBaremaRepository grupoBaremaRepository, AtividadeBaremaService atividadeBaremaService) {
         this.grupoBaremaRepository = grupoBaremaRepository;
+        this.atividadeBaremaService = atividadeBaremaService;
     }
 
     @Override
@@ -42,8 +43,22 @@ public class GrupoBaremaServiceImpl implements GrupoBaremaService {
     }
 
     @Override
-    public List<GrupoBarema> getAll() {
-        return grupoBaremaRepository.findAll();
+    public List<GrupoBaremaResponseDTO> getAll() {
+        List<GrupoBarema> baremaList = grupoBaremaRepository.findAll();
+        List<GrupoBaremaResponseDTO> baremaDTOList = new ArrayList<>();
+        baremaList.forEach(barema -> {
+            List<AtividadeBarema> atividadeList = atividadeBaremaService.findByIdGrupoBarema(barema.getId());
+            GrupoBaremaResponseDTO baremaDTO = GrupoBaremaResponseDTO.builder()
+                    .id(barema.getId())
+                    .descricao(barema.getDescricao())
+                    .minimoHoras(barema.getMinimoHoras())
+                    .numero(barema.getNumero())
+                    .atividadeBaremaList(atividadeList)
+                    .build();
+            baremaDTOList.add(baremaDTO);
+
+        });
+        return baremaDTOList;
     }
 
 
