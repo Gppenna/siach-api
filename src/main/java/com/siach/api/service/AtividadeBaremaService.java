@@ -13,4 +13,5 @@ public interface AtividadeBaremaService {
 
     AtividadeBarema save(AtividadeBaremaRequestDTO atividadeBaremaRequestDTO);
 
+    List<AtividadeBarema> getAll();
 }

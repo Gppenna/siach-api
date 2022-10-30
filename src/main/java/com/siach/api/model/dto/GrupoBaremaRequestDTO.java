@@ -4,7 +4,7 @@ import com.siach.api.model.entity.AtividadeBarema;
 import com.siach.api.model.entity.Curso;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter

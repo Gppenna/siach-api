@@ -39,6 +39,9 @@ public class AtividadeBaremaServiceImpl implements AtividadeBaremaService {
         return atividadeBaremaRepository.save(atividadeBarema);
     }
 
-
+    @Override
+    public List<AtividadeBarema> getAll() {
+        return atividadeBaremaRepository.findAll();
+    }
 
 }
