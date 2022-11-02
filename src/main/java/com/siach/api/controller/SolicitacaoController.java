@@ -38,6 +38,11 @@ public class SolicitacaoController {
         return ResponseEntity.ok(solicitacaoService.save(solicitacaoRequestDTO));
     }
 
+    @PutMapping("/ativar")
+    public ResponseEntity<List<Solicitacao>> ativar(@RequestBody List<Long> ids) {
+        return ResponseEntity.ok(solicitacaoService.ativar(ids));
+    }
+
     @GetMapping("/table")
     public ResponseEntity<List<SolicitacaoResponseDTO>> getAll() {
         return ResponseEntity.ok(solicitacaoService.getAll());

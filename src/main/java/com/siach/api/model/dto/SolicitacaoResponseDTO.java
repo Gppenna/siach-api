@@ -2,9 +2,11 @@ package com.siach.api.model.dto;
 
 import com.siach.api.model.entity.AtividadeBarema;
 import com.siach.api.model.entity.GrupoBarema;
+import com.siach.api.model.entity.SolicitacaoProgresso;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +19,9 @@ public class SolicitacaoResponseDTO {
     private AtividadeBarema atividadeBarema;
     private GrupoBarema grupoBarema;
     private byte[] comprovante;
+    private String comprovanteNome;
     private UsuarioResponseDTO usuarioResponseDTO;
+    private Long id;
+    private List<SolicitacaoProgresso> solicitacaoProgressoList;
 }
 

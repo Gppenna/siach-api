@@ -4,13 +4,16 @@ import com.siach.api.enumeration.StatusInternoEnum;
 import com.siach.api.model.dto.SolicitacaoRequestDTO;
 import com.siach.api.model.dto.SolicitacaoResponseDTO;
 import com.siach.api.model.entity.Solicitacao;
+import com.siach.api.model.entity.SolicitacaoProgresso;
 import com.siach.api.repository.SolicitacaoRepository;
+import com.siach.api.service.SolicitacaoProgressoService;
 import com.siach.api.service.SolicitacaoService;
 import com.siach.api.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,22 +24,27 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 
     private final UsuarioService usuarioService;
 
+    private final SolicitacaoProgressoService solicitacaoProgressoService;
+
     @Autowired
-    public SolicitacaoServiceImpl(SolicitacaoRepository solicitacaoRepository, UsuarioService usuarioService) {
+    public SolicitacaoServiceImpl(SolicitacaoRepository solicitacaoRepository, UsuarioService usuarioService, SolicitacaoProgressoService solicitacaoProgressoService) {
         this.solicitacaoRepository = solicitacaoRepository;
         this.usuarioService = usuarioService;
+        this.solicitacaoProgressoService = solicitacaoProgressoService;
     }
 
     @Override
     public Solicitacao save(SolicitacaoRequestDTO solicitacaoRequestDTO) throws IOException {
 
         Solicitacao solicitacao = Solicitacao.builder()
+                .id(solicitacaoRequestDTO.getId())
                 .horas(solicitacaoRequestDTO.getHoras())
                 .idAtividadeBarema(solicitacaoRequestDTO.getIdAtividadeBarema())
                 .comprovante(solicitacaoRequestDTO.getComprovante().getBytes())
                 .titulo(solicitacaoRequestDTO.getTitulo())
                 .idUsuario(usuarioService.getLogged().getId())
                 .statusInterno(StatusInternoEnum.RASCUNHO.getKey())
+                .comprovanteNome(solicitacaoRequestDTO.getComprovanteNome())
                 .build();
         return solicitacaoRepository.save(solicitacao);
     }
@@ -48,11 +56,14 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 
         solicitacaoList.forEach(solicitacao -> {
             SolicitacaoResponseDTO solicitacaoResponseDTO = SolicitacaoResponseDTO.builder()
+                    .id(solicitacao.getId())
                     .atividadeBarema(solicitacao.getAtividadeBarema())
                     .grupoBarema(solicitacao.getAtividadeBarema().getGrupoBarema())
                     .comprovante(solicitacao.getComprovante())
+                    .solicitacaoProgressoList(solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getId()))
                     .horas(solicitacao.getHoras())
                     .titulo(solicitacao.getTitulo())
+                    .comprovanteNome(solicitacao.getComprovanteNome())
                     .build();
             solicitacaoResponseDTOList.add(solicitacaoResponseDTO);
         });
@@ -66,15 +77,37 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 
         solicitacaoList.forEach(solicitacao -> {
             SolicitacaoResponseDTO solicitacaoResponseDTO = SolicitacaoResponseDTO.builder()
+                    .id(solicitacao.getId())
                     .atividadeBarema(solicitacao.getAtividadeBarema())
                     .grupoBarema(solicitacao.getAtividadeBarema().getGrupoBarema())
                     .comprovante(solicitacao.getComprovante())
                     .horas(solicitacao.getHoras())
                     .titulo(solicitacao.getTitulo())
+                    .comprovanteNome(solicitacao.getComprovanteNome())
                     .build();
             solicitacaoResponseDTOList.add(solicitacaoResponseDTO);
         });
         return solicitacaoResponseDTOList;
     }
+
+    @Override
+    public List<Solicitacao> ativar(List<Long> ids) {
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByIdIn(ids);
+
+        solicitacaoList.forEach(solicitacao -> {
+            solicitacao.setStatusInterno(StatusInternoEnum.ATIVO.getKey());
+            SolicitacaoProgresso solicitacaoProgresso = SolicitacaoProgresso.builder()
+                    .idStatus(1L)
+                    .idSolicitacao(solicitacao.getId())
+                    .dataCadastro(LocalDate.now())
+                    .build();
+            solicitacaoProgressoService.save(solicitacaoProgresso);
+        });
+        solicitacaoRepository.saveAll(solicitacaoList);
+
+        return solicitacaoList;
+    }
+
+
 
 }

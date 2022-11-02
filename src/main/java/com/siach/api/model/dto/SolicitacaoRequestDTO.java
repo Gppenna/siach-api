@@ -9,9 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SolicitacaoRequestDTO {
+    private Long id;
     private String titulo;
     private Long horas;
     private Long idAtividadeBarema;
     private MultipartFile comprovante;
+    private String comprovanteNome;
 }
 

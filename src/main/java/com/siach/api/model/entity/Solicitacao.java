@@ -47,4 +47,7 @@ public class Solicitacao {
 
     @Column(name = "status_interno")
     private String statusInterno;
+
+    @Column(name = "comprovante_nome")
+    private String comprovanteNome;
 }
