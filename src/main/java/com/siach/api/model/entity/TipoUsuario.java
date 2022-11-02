@@ -10,20 +10,20 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "TIPO_USUARIO")
+@Table(name = "tipo_usuario")
 public class TipoUsuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TIPO_USUARIO_SEQ")
-    @SequenceGenerator(name = "TIPO_USUARIO_SEQ", sequenceName = "TIPO_USUARIO_SEQ", allocationSize = 1)
-    @Column(name = "ID_TIPO_USUARIO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_usuario_seq")
+    @SequenceGenerator(name = "tipo_usuario_seq", sequenceName = "tipo_usuario_seq", allocationSize = 1)
+    @Column(name = "id_tipo_usuario")
     private Long id;
 
-    @Column(name = "ACESSO")
+    @Column(name = "acesso")
     private Long acesso;
 
     @ManyToOne(cascade=CascadeType.PERSIST)
-    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     private Usuario usuario;
 }
 

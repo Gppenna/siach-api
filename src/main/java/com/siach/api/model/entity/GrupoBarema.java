@@ -11,29 +11,25 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "GRUPO_BAREMA")
+@Table(name = "grupo_barema")
 public class GrupoBarema {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GRUPO_BAREMA_SEQ")
-    @SequenceGenerator(name = "GRUPO_BAREMA_SEQ", sequenceName = "GRUPO_BAREMA_SEQ", allocationSize = 1)
-    @Column(name = "ID_GRUPO_BAREMA")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "grupo_barema_seq")
+    @SequenceGenerator(name = "grupo_barema_seq", sequenceName = "grupo_barema_seq", allocationSize = 1)
+    @Column(name = "id_grupo_barema")
     private Long id;
 
-    @Column(name = "DESCRICAO")
+    @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "MINIMO_HORAS")
+    @Column(name = "minimo_horas")
     private Long minimoHoras;
 
-    @Column(name = "NUMERO")
+    @Column(name = "numero")
     private Long numero;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_CURSO", referencedColumnName = "ID_CURSO", insertable = false, updatable = false)
-    private Curso curso;
-
-    @Column(name = "ID_CURSO")
+    @Column(name = "id_curso")
     private Long idCurso;
 
 }

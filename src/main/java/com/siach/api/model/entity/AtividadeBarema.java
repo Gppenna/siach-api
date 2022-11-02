@@ -14,8 +14,8 @@ import javax.persistence.*;
 public class AtividadeBarema {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ATIVIDADE_BAREMA_SEQ")
-    @SequenceGenerator(name = "ATIVIDADE_BAREMA_SEQ", sequenceName = "ATIVIDADE_BAREMA_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "atividade_barema_seq")
+    @SequenceGenerator(name = "atividade_barema_seq", sequenceName = "atividade_barema_seq", allocationSize = 1)
     @Column(name = "id_atividade_barema")
     private Long id;
 
@@ -27,5 +27,9 @@ public class AtividadeBarema {
 
     @Column(name = "id_grupo_barema")
     private Long idGrupoBarema;
+
+    @ManyToOne
+    @JoinColumn(name = "id_grupo_barema", referencedColumnName = "id_grupo_barema", insertable = false, updatable = false)
+    private GrupoBarema grupoBarema;
 
 }

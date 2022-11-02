@@ -10,15 +10,15 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "CURSO")
+@Table(name = "curso")
 public class Curso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_CURSO")
+    @Column(name = "id_curso")
     private Long id;
 
-    @Column(name = "DESCRICAO")
+    @Column(name = "descricao")
     private String descricao;
 
 }

@@ -1,12 +1,17 @@
 package com.siach.api.service.impl;
 
+import com.siach.api.model.dto.UsuarioResponseDTO;
 import com.siach.api.model.entity.TipoUsuario;
 import com.siach.api.model.entity.Usuario;
 import com.siach.api.repository.GrupoBaremaRepository;
 import com.siach.api.repository.UsuarioRepository;
 import com.siach.api.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -27,6 +32,25 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario findByEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }
+
+    @Override
+    public UsuarioResponseDTO getLogged() {
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!user.getClass().equals(String.class)) {
+            User logged = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Usuario loggedUser = usuarioRepository.findByEmail(logged.getUsername());
+            return UsuarioResponseDTO.builder()
+                    .id(loggedUser.getId())
+                    .email(loggedUser.getEmail())
+                    .curso(loggedUser.getCurso())
+                    .matricula(loggedUser.getMatricula())
+                    .nome(loggedUser.getNome())
+                    .build();
+        }
+        return UsuarioResponseDTO.builder().build();
+    }
+
+
 
 
 

@@ -10,30 +10,34 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "USUARIO")
+@Table(name = "usuario")
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_SEQ")
-    @SequenceGenerator(name = "USUARIO_SEQ", sequenceName = "USUARIO_SEQ", allocationSize = 1)
-    @Column(name = "ID_USUARIO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_seq")
+    @SequenceGenerator(name = "usuario_seq", sequenceName = "usuario_seq", allocationSize = 1)
+    @Column(name = "id_usuario")
     private Long id;
 
-    @Column(name = "MATRICULA")
+    @Column(name = "matricula")
     private String matricula;
 
-    @Column(name = "NOME")
+    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "SENHA")
+    @Column(name = "senha")
     private String senha;
 
-    @Column(name = "ID_CURSO")
+    @Column(name = "id_curso")
     private Long idCurso;
 
-    @Column(name = "STATUS")
+    @ManyToOne
+    @JoinColumn(name = "id_curso", referencedColumnName = "id_curso", insertable = false, updatable = false)
+    private Curso curso;
+
+    @Column(name = "status")
     private Long status;
 }

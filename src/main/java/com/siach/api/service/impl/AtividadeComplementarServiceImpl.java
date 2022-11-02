@@ -19,12 +19,9 @@ public class AtividadeComplementarServiceImpl implements AtividadeComplementarSe
 
     private final AtividadeComplementarRepository atividadeComplementarRepository;
 
-    private final GrupoBaremaService grupoBaremaService;
-
     @Autowired
-    public AtividadeComplementarServiceImpl(AtividadeComplementarRepository atividadeComplementarRepository, GrupoBaremaService grupoBaremaService) {
+    public AtividadeComplementarServiceImpl(AtividadeComplementarRepository atividadeComplementarRepository) {
         this.atividadeComplementarRepository = atividadeComplementarRepository;
-        this.grupoBaremaService = grupoBaremaService;
     }
 
     @Override
@@ -49,7 +46,7 @@ public class AtividadeComplementarServiceImpl implements AtividadeComplementarSe
         atividadeComplementarList.forEach(atividadeComplementar -> {
             AtividadeComplementarResponseDTO atividadeComplementarResponseDTO = AtividadeComplementarResponseDTO.builder()
                     .atividadeBarema(atividadeComplementar.getAtividadeBarema())
-                    .grupoBarema(grupoBaremaService.getById(atividadeComplementar.getAtividadeBarema().getIdGrupoBarema()))
+                    .grupoBarema(atividadeComplementar.getAtividadeBarema().getGrupoBarema())
                     .descricao(atividadeComplementar.getDescricao())
                     .imagem(atividadeComplementar.getImagem())
                     .periodoFim(atividadeComplementar.getPeriodoFim())

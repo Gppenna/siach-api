@@ -3,7 +3,6 @@ package com.siach.api.controller;
 
 import com.siach.api.model.dto.UsuarioResponseDTO;
 import com.siach.api.model.entity.Usuario;
-import com.siach.api.model.mapper.UsuarioMapper;
 import com.siach.api.service.UsuarioService;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,12 +21,8 @@ public class LoginController {
     @Autowired
     private final UsuarioService usuarioService;
 
-    @Autowired
-    private final UsuarioMapper usuarioMapper;
-
-    public LoginController(UsuarioService usuarioService, UsuarioMapper usuarioMapper) {
+    public LoginController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
-        this.usuarioMapper = usuarioMapper;
     }
 
     @GetMapping("/login")
@@ -38,6 +33,12 @@ public class LoginController {
     @GetMapping("/user")
     public ResponseEntity<Usuario> getUserInfo(@RequestParam("name") String name) {
         return ResponseEntity.ok(usuarioService.findByEmail(name));
+
+    }
+
+    @GetMapping("/logged-user")
+    public ResponseEntity<UsuarioResponseDTO> getLogged() {
+        return ResponseEntity.ok(usuarioService.getLogged());
 
     }
 
