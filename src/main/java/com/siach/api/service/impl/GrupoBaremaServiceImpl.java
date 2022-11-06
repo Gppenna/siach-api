@@ -34,6 +34,7 @@ public class GrupoBaremaServiceImpl implements GrupoBaremaService {
     @Override
     public GrupoBarema save(GrupoBaremaRequestDTO grupoBaremaRequestDTO) {
         GrupoBarema grupoBarema = GrupoBarema.builder()
+                .id(grupoBaremaRequestDTO.getId())
                 .idCurso(grupoBaremaRequestDTO.getIdCurso())
                 .descricao(grupoBaremaRequestDTO.getDescricao())
                 .minimoHoras(grupoBaremaRequestDTO.getMinimoHoras())

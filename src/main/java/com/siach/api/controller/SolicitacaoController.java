@@ -7,6 +7,7 @@ import com.siach.api.model.dto.SolicitacaoRequestDTO;
 import com.siach.api.model.dto.SolicitacaoResponseDTO;
 import com.siach.api.model.entity.AtividadeComplementar;
 import com.siach.api.model.entity.Solicitacao;
+import com.siach.api.model.entity.SolicitacaoProgresso;
 import com.siach.api.service.AtividadeComplementarService;
 import com.siach.api.service.SolicitacaoService;
 import lombok.Getter;
@@ -51,6 +52,11 @@ public class SolicitacaoController {
     @GetMapping("/table/rascunho")
     public ResponseEntity<List<SolicitacaoResponseDTO>> getAllRascunho() {
         return ResponseEntity.ok(solicitacaoService.getAllRascunho());
+    }
+
+    @GetMapping("detalhe/{id}")
+    public ResponseEntity<SolicitacaoResponseDTO> findById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(solicitacaoService.findById(id));
     }
 
 

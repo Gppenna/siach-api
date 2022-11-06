@@ -21,4 +21,7 @@ public class Curso {
     @Column(name = "descricao")
     private String descricao;
 
+    @Column(name = "minimo_horas_curso")
+    private Long minimoHorasCurso;
+
 }

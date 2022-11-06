@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SolicitacaoServiceImpl implements SolicitacaoService {
@@ -101,12 +102,41 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                     .idSolicitacao(solicitacao.getId())
                     .dataCadastro(LocalDate.now())
                     .build();
+            SolicitacaoProgresso solicitacaoProgresso2 = SolicitacaoProgresso.builder()
+                    .idStatus(2L)
+                    .idSolicitacao(solicitacao.getId())
+                    .build();
+            SolicitacaoProgresso solicitacaoProgresso3 = SolicitacaoProgresso.builder()
+                    .idStatus(3L)
+                    .idSolicitacao(solicitacao.getId())
+                    .build();
             solicitacaoProgressoService.save(solicitacaoProgresso);
+            solicitacaoProgressoService.save(solicitacaoProgresso2);
+            solicitacaoProgressoService.save(solicitacaoProgresso3);
+
         });
         solicitacaoRepository.saveAll(solicitacaoList);
 
         return solicitacaoList;
     }
+
+    @Override
+    public SolicitacaoResponseDTO findById(Long id) {
+        Solicitacao solicitacao = solicitacaoRepository.findById(id).get();
+
+        return SolicitacaoResponseDTO.builder()
+                    .id(solicitacao.getId())
+                    .atividadeBarema(solicitacao.getAtividadeBarema())
+                    .grupoBarema(solicitacao.getAtividadeBarema().getGrupoBarema())
+                    .comprovante(solicitacao.getComprovante())
+                    .solicitacaoProgressoList(solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getId()))
+                    .horas(solicitacao.getHoras())
+                    .titulo(solicitacao.getTitulo())
+                    .comprovanteNome(solicitacao.getComprovanteNome())
+                    .build();
+    }
+
+
 
 
 

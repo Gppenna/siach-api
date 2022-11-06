@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GrupoBaremaRequestDTO {
+    private Long id;
     private String descricao;
     private Long minimoHoras;
     private Long numero;
