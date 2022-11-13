@@ -8,11 +8,12 @@ import com.siach.api.model.entity.AtividadeComplementar;
 import com.siach.api.model.entity.Solicitacao;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 public interface SolicitacaoService {
 
-    Solicitacao save(SolicitacaoRequestDTO solicitacaoRequestDTO) throws IOException;
+    Solicitacao save(SolicitacaoRequestDTO solicitacaoRequestDTO, Principal user) throws IOException;
 
     List<SolicitacaoResponseDTO> getAll();
 

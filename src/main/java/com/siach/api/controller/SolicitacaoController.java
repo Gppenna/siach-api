@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @Getter
@@ -35,8 +36,8 @@ public class SolicitacaoController {
     }
 
     @PostMapping(value = "/criar",  consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<Solicitacao> criar(@ModelAttribute SolicitacaoRequestDTO solicitacaoRequestDTO) throws IOException {
-        return ResponseEntity.ok(solicitacaoService.save(solicitacaoRequestDTO));
+    public ResponseEntity<Solicitacao> criar(@ModelAttribute SolicitacaoRequestDTO solicitacaoRequestDTO, Principal user) throws IOException {
+        return ResponseEntity.ok(solicitacaoService.save(solicitacaoRequestDTO, user));
     }
 
     @PutMapping("/ativar")

@@ -37,8 +37,8 @@ public class LoginController {
     }
 
     @GetMapping("/logged-user")
-    public ResponseEntity<UsuarioResponseDTO> getLogged() {
-        return ResponseEntity.ok(usuarioService.getLogged());
+    public ResponseEntity<UsuarioResponseDTO> getLogged(Principal user) {
+        return ResponseEntity.ok(usuarioService.getLogged(user));
 
     }
 

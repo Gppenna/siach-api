@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     }
 
     @Override
-    public Solicitacao save(SolicitacaoRequestDTO solicitacaoRequestDTO) throws IOException {
+    public Solicitacao save(SolicitacaoRequestDTO solicitacaoRequestDTO, Principal user) throws IOException {
 
         Solicitacao solicitacao = Solicitacao.builder()
                 .id(solicitacaoRequestDTO.getId())
@@ -50,7 +51,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                 .idAtividadeBarema(solicitacaoRequestDTO.getIdAtividadeBarema())
                 .comprovante(solicitacaoRequestDTO.getComprovante().getBytes())
                 .titulo(solicitacaoRequestDTO.getTitulo())
-                .idUsuario(usuarioService.getLogged().getId())
+                .idUsuario(usuarioService.getLogged(user).getId())
                 .statusInterno(StatusInternoEnum.RASCUNHO.getKey())
                 .comprovanteNome(solicitacaoRequestDTO.getComprovanteNome())
                 .build();

@@ -34,11 +34,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioResponseDTO getLogged() {
-        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(!user.getClass().equals(String.class)) {
-            User logged = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Usuario loggedUser = usuarioRepository.findByEmail(logged.getUsername());
+    public UsuarioResponseDTO getLogged(Principal user) {
+        if(user.getName() != null) {
+            Usuario loggedUser = usuarioRepository.findByEmail(user.getName());
             return UsuarioResponseDTO.builder()
                     .id(loggedUser.getId())
                     .email(loggedUser.getEmail())
