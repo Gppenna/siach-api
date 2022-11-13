@@ -2,6 +2,7 @@ package com.siach.api.enumeration;
 
 public enum StatusInternoEnum {
     RASCUNHO("R", "Rascunho"),
+    FINALIZADO("F", "Finalizado"),
     ATIVO("A", "Ativo"),
     INATIVO("I", "Inativo");
 

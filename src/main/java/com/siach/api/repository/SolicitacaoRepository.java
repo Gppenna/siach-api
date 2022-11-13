@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> {
 
+    List<Solicitacao> findByStatusInternoIn(List<String> statusInterno);
     List<Solicitacao> findByStatusInterno(String statusInterno);
 
     List<Solicitacao> findByIdIn(List<Long> ids);

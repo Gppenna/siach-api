@@ -49,6 +49,11 @@ public class SolicitacaoController {
         return ResponseEntity.ok(solicitacaoService.getAll());
     }
 
+    @GetMapping("/table/finalizado")
+    public ResponseEntity<List<SolicitacaoResponseDTO>> getAllFinalizado() {
+        return ResponseEntity.ok(solicitacaoService.getAllFinalizado());
+    }
+
     @GetMapping("/table/rascunho")
     public ResponseEntity<List<SolicitacaoResponseDTO>> getAllRascunho() {
         return ResponseEntity.ok(solicitacaoService.getAllRascunho());

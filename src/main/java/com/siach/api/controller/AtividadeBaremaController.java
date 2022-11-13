@@ -31,6 +31,11 @@ public class AtividadeBaremaController {
         return ResponseEntity.ok(atividadeBaremaService.save(atividadeBaremaRequestDTO));
     }
 
+    @PostMapping("/deletar")
+    public void deletar(@RequestBody Long id) {
+        atividadeBaremaService.deletar(id);
+    }
+
     @GetMapping("/table")
     public ResponseEntity<List<AtividadeBarema>> getAll() {
         return ResponseEntity.ok(atividadeBaremaService.getAll());

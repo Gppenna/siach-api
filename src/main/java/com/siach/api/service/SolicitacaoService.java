@@ -16,6 +16,8 @@ public interface SolicitacaoService {
 
     List<SolicitacaoResponseDTO> getAll();
 
+    List<SolicitacaoResponseDTO> getAllFinalizado();
+
     SolicitacaoResponseDTO findById(Long id);
 
     List<Solicitacao> ativar(List<Long> ids);

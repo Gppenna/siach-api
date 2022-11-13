@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AtividadeBaremaServiceImpl implements AtividadeBaremaService {
@@ -42,6 +43,12 @@ public class AtividadeBaremaServiceImpl implements AtividadeBaremaService {
     @Override
     public List<AtividadeBarema> getAll() {
         return atividadeBaremaRepository.findAll();
+    }
+
+    @Override
+    public void deletar(Long id) {
+        AtividadeBarema atividadeBarema = atividadeBaremaRepository.findById(id).get();
+        atividadeBaremaRepository.delete(atividadeBarema);
     }
 
 }

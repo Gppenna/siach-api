@@ -19,6 +19,14 @@
 		<version.lombok>1.18.18</version.lombok>
 		<version.mapstruct-lombok>0.2.0</version.mapstruct-lombok>
 	</properties>
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<properties>
+				<sonar.host.url>http://localhost:9000/</sonar.host.url>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -84,6 +92,7 @@
 		</dependency>
 	</dependencies>
 
+
 	<build>
 		<plugins>
 			<plugin>
@@ -91,6 +100,13 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${project.parent.version}</version>
 			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.4.0.905</version>
+
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
