@@ -1,17 +1,11 @@
 package com.siach.api.service.impl;
 
 import com.siach.api.model.dto.UsuarioResponseDTO;
-import com.siach.api.model.entity.TipoUsuario;
 import com.siach.api.model.entity.Usuario;
-import com.siach.api.repository.GrupoBaremaRepository;
 import com.siach.api.repository.UsuarioRepository;
 import com.siach.api.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-
-import java.security.Principal;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {

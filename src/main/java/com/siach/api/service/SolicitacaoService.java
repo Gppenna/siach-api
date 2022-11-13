@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface SolicitacaoService {
 
-    Solicitacao save(SolicitacaoRequestDTO solicitacaoRequestDTO, Principal user) throws IOException;
+    Solicitacao save(SolicitacaoRequestDTO solicitacaoRequestDTO) throws IOException;
 
     List<SolicitacaoResponseDTO> getAll();
 

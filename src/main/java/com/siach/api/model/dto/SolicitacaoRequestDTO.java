@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class SolicitacaoRequestDTO {
     private Long id;
+    private String email;
     private String titulo;
     private Long horas;
     private Long idAtividadeBarema;

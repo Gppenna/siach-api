@@ -36,8 +36,8 @@ public class SolicitacaoController {
     }
 
     @PostMapping(value = "/criar",  consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<Solicitacao> criar(@ModelAttribute SolicitacaoRequestDTO solicitacaoRequestDTO, Principal user) throws IOException {
-        return ResponseEntity.ok(solicitacaoService.save(solicitacaoRequestDTO, user));
+    public ResponseEntity<Solicitacao> criar(@ModelAttribute SolicitacaoRequestDTO solicitacaoRequestDTO) throws IOException {
+        return ResponseEntity.ok(solicitacaoService.save(solicitacaoRequestDTO));
     }
 
     @PutMapping("/ativar")
