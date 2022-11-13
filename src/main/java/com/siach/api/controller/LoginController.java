@@ -31,14 +31,8 @@ public class LoginController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Usuario> getUserInfo(@RequestParam("name") String name) {
+    public ResponseEntity<UsuarioResponseDTO> getUserInfo(@RequestParam("name") String name) {
         return ResponseEntity.ok(usuarioService.findByEmail(name));
-
-    }
-
-    @GetMapping("/logged-user")
-    public ResponseEntity<UsuarioResponseDTO> getLogged(Principal user) {
-        return ResponseEntity.ok(usuarioService.getLogged(user));
 
     }
 

@@ -9,8 +9,5 @@ import java.security.Principal;
 public interface UsuarioService {
 
     Usuario findByEmailAndSenha(String email, String senha);
-    Usuario findByEmail(String email);
-
-    UsuarioResponseDTO getLogged(Principal user);
-
+    UsuarioResponseDTO findByEmail(String email);
 }
