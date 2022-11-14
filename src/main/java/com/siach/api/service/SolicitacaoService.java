@@ -1,9 +1,6 @@
 package com.siach.api.service;
 
-import com.siach.api.model.dto.AtividadeComplementarRequestDTO;
-import com.siach.api.model.dto.AtividadeComplementarResponseDTO;
-import com.siach.api.model.dto.SolicitacaoRequestDTO;
-import com.siach.api.model.dto.SolicitacaoResponseDTO;
+import com.siach.api.model.dto.*;
 import com.siach.api.model.entity.AtividadeComplementar;
 import com.siach.api.model.entity.Solicitacao;
 
@@ -17,7 +14,7 @@ public interface SolicitacaoService {
 
     List<SolicitacaoResponseDTO> getAll();
 
-    List<SolicitacaoResponseDTO> getAllFinalizado();
+    List<PerfilResponseDTO> getAllFinalizado();
 
     SolicitacaoResponseDTO findById(Long id);
 

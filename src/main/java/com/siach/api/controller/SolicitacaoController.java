@@ -1,10 +1,7 @@
 package com.siach.api.controller;
 
 
-import com.siach.api.model.dto.AtividadeComplementarRequestDTO;
-import com.siach.api.model.dto.AtividadeComplementarResponseDTO;
-import com.siach.api.model.dto.SolicitacaoRequestDTO;
-import com.siach.api.model.dto.SolicitacaoResponseDTO;
+import com.siach.api.model.dto.*;
 import com.siach.api.model.entity.AtividadeComplementar;
 import com.siach.api.model.entity.Solicitacao;
 import com.siach.api.model.entity.SolicitacaoProgresso;
@@ -51,7 +48,7 @@ public class SolicitacaoController {
     }
 
     @GetMapping("/table/finalizado")
-    public ResponseEntity<List<SolicitacaoResponseDTO>> getAllFinalizado() {
+    public ResponseEntity<List<PerfilResponseDTO>> getAllFinalizado() {
         return ResponseEntity.ok(solicitacaoService.getAllFinalizado());
     }
 

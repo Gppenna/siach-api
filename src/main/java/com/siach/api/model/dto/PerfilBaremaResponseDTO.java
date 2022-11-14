@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PerfilBaremaResponseDTO {
+    private String descricao;
     private Long horasContabilizadas = 0L;
     private Long horasLimite;
 
