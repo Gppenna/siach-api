@@ -12,6 +12,7 @@ public interface GrupoBaremaService {
 
     List<GrupoBaremaResponseDTO> getAll();
 
+
     GrupoBarema save(GrupoBaremaRequestDTO grupoBaremaRequestDTO);
 
 }

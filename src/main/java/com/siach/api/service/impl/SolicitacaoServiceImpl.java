@@ -2,6 +2,8 @@ package com.siach.api.service.impl;
 
 import com.siach.api.enumeration.StatusInternoEnum;
 import com.siach.api.model.dto.*;
+import com.siach.api.model.entity.AtividadeBarema;
+import com.siach.api.model.entity.GrupoBarema;
 import com.siach.api.model.entity.Solicitacao;
 import com.siach.api.model.entity.SolicitacaoProgresso;
 import com.siach.api.repository.SolicitacaoRepository;
@@ -14,7 +16,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 public class SolicitacaoServiceImpl implements SolicitacaoService {
@@ -84,7 +88,6 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     public List<PerfilResponseDTO> getAllFinalizado() {
         List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInterno(StatusInternoEnum.FINALIZADO.getKey());
         List<GrupoBaremaResponseDTO> grupoBaremaList = grupoBaremaService.getAll();
-        List<SolicitacaoResponseDTO> solicitacaoResponseDTOList = new ArrayList<>();
 
         List<PerfilResponseDTO> perfilResponseDTOList = new ArrayList<>();
 
@@ -101,18 +104,67 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
             perfilResponseDTOList.add(perfilResponseDTO);
         });
 
-        solicitacaoList.forEach(solicitacao -> {
-            perfilResponseDTOList.forEach(perfilResponseDTO -> {
-                if(perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema()) != null) {
-                    PerfilBaremaResponseDTO atividade = perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema());
-                    atividade.setHorasContabilizadas(atividade.getHorasContabilizadas() + solicitacao.getHoras());
-                    if(atividade.getHorasContabilizadas() > atividade.getHorasLimite()) {
-                        atividade.setHorasContabilizadas(atividade.getHorasLimite());
-                    }
-                    perfilResponseDTO.getPerfilAtividadeList().put(solicitacao.getIdAtividadeBarema(), atividade);
+        solicitacaoList.forEach(solicitacao -> perfilResponseDTOList.forEach(perfilResponseDTO -> {
+            if(perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema()) != null) {
+                PerfilBaremaResponseDTO atividade = perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema());
+                atividade.setHorasContabilizadas(atividade.getHorasContabilizadas() + solicitacao.getHoras());
+                if(atividade.getHorasContabilizadas() > atividade.getHorasLimite()) {
+                    atividade.setHorasContabilizadas(atividade.getHorasLimite());
                 }
-            });
+                perfilResponseDTO.getPerfilAtividadeList().put(solicitacao.getIdAtividadeBarema(), atividade);
+            }
+        }));
+        perfilResponseDTOList.forEach(perfilResponseDTO -> {
+            AtomicReference<Long> horas = new AtomicReference<>(0L);
+            perfilResponseDTO.getPerfilAtividadeList().forEach((key, value) -> horas.updateAndGet(v -> v + value.getHorasContabilizadas()));
+            perfilResponseDTO.getPerfilGrupo().forEach((key, value) -> value.setHorasContabilizadas(horas.get()));
         });
+        return perfilResponseDTOList;
+    }
+
+    @Override
+    public List<PerfilResponseDTO> getByIdFinalizado(Long id) {
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoAndIdAtividadeBarema(StatusInternoEnum.FINALIZADO.getKey(), id);
+        Set<GrupoBarema> grupoBaremaList = solicitacaoList.stream().map(solicitacao -> solicitacao.getAtividadeBarema().getGrupoBarema()).collect(Collectors.toSet());
+        List<GrupoBaremaResponseDTO> baremaDTOList = new ArrayList<>();
+        grupoBaremaList.forEach(barema -> {
+            List<AtividadeBarema> atividadeList = atividadeBaremaService.findByIdIn(solicitacaoList.stream().map(Solicitacao::getIdAtividadeBarema).collect(Collectors.toSet()));
+            GrupoBaremaResponseDTO baremaDTO = GrupoBaremaResponseDTO.builder()
+                    .id(barema.getId())
+                    .descricao(barema.getDescricao())
+                    .minimoHoras(barema.getMinimoHoras())
+                    .numero(barema.getNumero())
+                    .atividadeBaremaList(atividadeList)
+                    .build();
+            baremaDTOList.add(baremaDTO);
+
+        });
+
+        List<PerfilResponseDTO> perfilResponseDTOList = new ArrayList<>();
+
+        baremaDTOList.forEach(grupoBarema -> {
+            HashMap<Long, PerfilBaremaResponseDTO> grupoBaremaMap = new HashMap<>();
+            grupoBaremaMap.put(grupoBarema.getId(),PerfilBaremaResponseDTO.builder()
+                    .descricao(grupoBarema.getDescricao())
+                    .horasLimite(grupoBarema.getMinimoHoras()).build());
+
+            PerfilResponseDTO perfilResponseDTO = PerfilResponseDTO.builder()
+                    .perfilGrupo(grupoBaremaMap)
+                    .perfilAtividadeList(getAtividadeList(grupoBarema))
+                    .build();
+            perfilResponseDTOList.add(perfilResponseDTO);
+        });
+
+        solicitacaoList.forEach(solicitacao -> perfilResponseDTOList.forEach(perfilResponseDTO -> {
+            if(perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema()) != null) {
+                PerfilBaremaResponseDTO atividade = perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema());
+                atividade.setHorasContabilizadas(atividade.getHorasContabilizadas() + solicitacao.getHoras());
+                if(atividade.getHorasContabilizadas() > atividade.getHorasLimite()) {
+                    atividade.setHorasContabilizadas(atividade.getHorasLimite());
+                }
+                perfilResponseDTO.getPerfilAtividadeList().put(solicitacao.getIdAtividadeBarema(), atividade);
+            }
+        }));
         perfilResponseDTOList.forEach(perfilResponseDTO -> {
             AtomicReference<Long> horas = new AtomicReference<>(0L);
             perfilResponseDTO.getPerfilAtividadeList().forEach((key, value) -> horas.updateAndGet(v -> v + value.getHorasContabilizadas()));

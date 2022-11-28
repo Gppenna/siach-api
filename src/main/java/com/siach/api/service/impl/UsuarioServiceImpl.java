@@ -25,13 +25,17 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioResponseDTO findByEmail(String email) {
         Usuario loggedUser = usuarioRepository.findByEmail(email);
-        return UsuarioResponseDTO.builder()
-                .id(loggedUser.getId())
-                .email(loggedUser.getEmail())
-                .curso(loggedUser.getCurso())
-                .matricula(loggedUser.getMatricula())
-                .nome(loggedUser.getNome())
-                .build();
+        if(loggedUser != null) {
+            return UsuarioResponseDTO.builder()
+                    .id(loggedUser.getId())
+                    .email(loggedUser.getEmail())
+                    .curso(loggedUser.getCurso())
+                    .matricula(loggedUser.getMatricula())
+                    .nome(loggedUser.getNome())
+                    .build();
+        }
+        return UsuarioResponseDTO.builder().build();
+
     }
 
 }

@@ -6,10 +6,13 @@ import com.siach.api.model.entity.AtividadeBarema;
 import com.siach.api.model.entity.GrupoBarema;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AtividadeBaremaService {
 
     List<AtividadeBarema> findByIdGrupoBarema(Long idGrupoBarema);
+
+    List<AtividadeBarema> findByIdIn(Set<Long> id);
 
     AtividadeBarema save(AtividadeBaremaRequestDTO atividadeBaremaRequestDTO);
 

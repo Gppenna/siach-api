@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AtividadeBaremaServiceImpl implements AtividadeBaremaService {
@@ -28,6 +29,11 @@ public class AtividadeBaremaServiceImpl implements AtividadeBaremaService {
     @Override
     public List<AtividadeBarema> findByIdGrupoBarema(Long idGrupoBarema) {
         return atividadeBaremaRepository.findByIdGrupoBarema(idGrupoBarema);
+    }
+
+    @Override
+    public List<AtividadeBarema> findByIdIn(Set<Long> id) {
+        return atividadeBaremaRepository.findByIdIn(id);
     }
 
     @Override

@@ -52,6 +52,11 @@ public class SolicitacaoController {
         return ResponseEntity.ok(solicitacaoService.getAllFinalizado());
     }
 
+    @GetMapping("/table/finalizado/{id}")
+    public ResponseEntity<List<PerfilResponseDTO>> getByIdFinalizado(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(solicitacaoService.getByIdFinalizado(id));
+    }
+
     @GetMapping("/table/rascunho")
     public ResponseEntity<List<SolicitacaoResponseDTO>> getAllRascunho() {
         return ResponseEntity.ok(solicitacaoService.getAllRascunho());
