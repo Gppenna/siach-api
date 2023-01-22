@@ -14,6 +14,8 @@ public interface AtividadeBaremaService {
 
     List<AtividadeBarema> findByIdIn(Set<Long> id);
 
+    AtividadeBarema findById(Long id);
+
     AtividadeBarema save(AtividadeBaremaRequestDTO atividadeBaremaRequestDTO);
 
     List<AtividadeBarema> getAll();

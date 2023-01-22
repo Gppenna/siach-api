@@ -37,6 +37,12 @@ public class AtividadeBaremaServiceImpl implements AtividadeBaremaService {
     }
 
     @Override
+    public AtividadeBarema findById(Long id) {
+        Optional<AtividadeBarema> atividadeBarema = atividadeBaremaRepository.findById(id);
+        return atividadeBarema.get();
+    }
+
+    @Override
     public AtividadeBarema save(AtividadeBaremaRequestDTO atividadeBaremaRequestDTO) {
         AtividadeBarema atividadeBarema = AtividadeBarema.builder()
                 .descricao(atividadeBaremaRequestDTO.getDescricao())
