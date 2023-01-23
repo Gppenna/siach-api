@@ -82,8 +82,8 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     }
 
     @Override
-    public List<PerfilResponseDTO> getAllFinalizado() {
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInterno(StatusInternoEnum.FINALIZADO.getKey());
+    public List<PerfilResponseDTO> getAllByStatusInterno(List<String> statusInternoEnum) {
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoIn(statusInternoEnum);
         List<GrupoBaremaResponseDTO> grupoBaremaList = grupoBaremaService.getAll();
 
         List<PerfilResponseDTO> perfilResponseDTOList = new ArrayList<>();
@@ -120,8 +120,8 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     }
 
     @Override
-    public List<PerfilResponseDTO> getByIdFinalizado(Long id) {
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoAndIdAtividadeBarema(StatusInternoEnum.FINALIZADO.getKey(), id);
+    public List<PerfilResponseDTO> getByIdStatusInterno(Long id, List<String> statusInternoEnum) {
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdAtividadeBarema(statusInternoEnum, id);
         AtividadeBarema atividadeBarema = atividadeBaremaService.findById(id);
 
         GrupoBarema grupoBaremaEntity = atividadeBarema.getGrupoBarema();
@@ -147,56 +147,6 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                 .perfilGrupo(grupoBaremaMap)
                 .perfilAtividadeList(getAtividadeList(grupoBarema))
                     .build();
-        perfilResponseDTOList.add(perfilResponseDTOTMP);
-
-        solicitacaoList.forEach(solicitacao -> perfilResponseDTOList.forEach(perfilResponseDTO -> {
-            if(perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema()) != null) {
-                PerfilBaremaResponseDTO atividade = perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema());
-                atividade.setHorasContabilizadas(atividade.getHorasContabilizadas() + solicitacao.getHoras());
-                if(atividade.getHorasContabilizadas() > atividade.getHorasLimite()) {
-                    atividade.setHorasContabilizadas(atividade.getHorasLimite());
-                }
-                perfilResponseDTO.getPerfilAtividadeList().put(solicitacao.getIdAtividadeBarema(), atividade);
-            }
-        }));
-        perfilResponseDTOList.forEach(perfilResponseDTO -> {
-            AtomicReference<Long> horas = new AtomicReference<>(0L);
-            perfilResponseDTO.getPerfilAtividadeList().forEach((key, value) -> horas.updateAndGet(v -> v + value.getHorasContabilizadas()));
-            perfilResponseDTO.getPerfilGrupo().forEach((key, value) -> value.setHorasContabilizadas(horas.get()));
-        });
-        return perfilResponseDTOList;
-    }
-
-    @Override
-    public List<PerfilResponseDTO> getRascunhoData(Long id) {
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInterno(StatusInternoEnum.RASCUNHO.getKey());
-        List<AtividadeBarema> atividadeList = atividadeBaremaService.findByIdIn(solicitacaoList.stream().map(Solicitacao::getIdAtividadeBarema).collect(Collectors.toSet()));
-
-        AtividadeBarema atividadeBarema = atividadeBaremaService.findById(id);
-
-        GrupoBarema grupoBaremaEntity = atividadeBarema.getGrupoBarema();
-        List<AtividadeBarema> atividadeBaremaList = new ArrayList<>();
-        atividadeBaremaList.add(atividadeBarema);
-
-        GrupoBaremaResponseDTO grupoBarema = GrupoBaremaResponseDTO.builder()
-                .id(grupoBaremaEntity.getId())
-                .descricao(grupoBaremaEntity.getDescricao())
-                .minimoHoras(grupoBaremaEntity.getMinimoHoras())
-                .numero(grupoBaremaEntity.getNumero())
-                .atividadeBaremaList(atividadeBaremaList)
-                .build();
-
-        List<PerfilResponseDTO> perfilResponseDTOList = new ArrayList<>();
-
-        HashMap<Long, PerfilBaremaResponseDTO> grupoBaremaMap = new HashMap<>();
-        grupoBaremaMap.put(grupoBarema.getId(),PerfilBaremaResponseDTO.builder()
-                .descricao(grupoBarema.getDescricao())
-                .horasLimite(grupoBarema.getMinimoHoras()).build());
-
-        PerfilResponseDTO perfilResponseDTOTMP = PerfilResponseDTO.builder()
-                .perfilGrupo(grupoBaremaMap)
-                .perfilAtividadeList(getAtividadeList(grupoBarema))
-                .build();
         perfilResponseDTOList.add(perfilResponseDTOTMP);
 
         solicitacaoList.forEach(solicitacao -> perfilResponseDTOList.forEach(perfilResponseDTO -> {

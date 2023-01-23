@@ -12,7 +12,7 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
     List<Solicitacao> findByStatusInternoIn(List<String> statusInterno);
     List<Solicitacao> findByStatusInterno(String statusInterno);
 
-    List<Solicitacao> findByStatusInternoAndIdAtividadeBarema(String statusInterno, Long idAtividadeBarema);
+    List<Solicitacao> findByStatusInternoInAndIdAtividadeBarema(List<String> statusInterno, Long idAtividadeBarema);
 
     List<Solicitacao> findByIdIn(List<Long> ids);
 

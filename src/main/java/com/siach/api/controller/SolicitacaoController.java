@@ -1,6 +1,7 @@
 package com.siach.api.controller;
 
 
+import com.siach.api.enumeration.StatusInternoEnum;
 import com.siach.api.model.dto.*;
 import com.siach.api.model.entity.AtividadeComplementar;
 import com.siach.api.model.entity.Solicitacao;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -47,14 +49,34 @@ public class SolicitacaoController {
         return ResponseEntity.ok(solicitacaoService.getAll());
     }
 
-    @GetMapping("/table/finalizado")
-    public ResponseEntity<List<PerfilResponseDTO>> getAllFinalizado() {
-        return ResponseEntity.ok(solicitacaoService.getAllFinalizado());
+    @GetMapping("/perfil/finalizado")
+    public ResponseEntity<List<PerfilResponseDTO>> getAllFinalizadoSolicitacao() {
+        List<String> statusInternoEnumList = new ArrayList<>();
+        statusInternoEnumList.add(StatusInternoEnum.FINALIZADO.getKey());
+        return ResponseEntity.ok(solicitacaoService.getAllByStatusInterno(statusInternoEnumList));
     }
 
-    @GetMapping("/table/finalizado/{id}")
+    @GetMapping("/perfil/rascunho")
+    public ResponseEntity<List<PerfilResponseDTO>> getAllRascunhoSolicitacao() {
+        List<String> statusInternoEnumList = new ArrayList<>();
+        statusInternoEnumList.add(StatusInternoEnum.RASCUNHO.getKey());
+        statusInternoEnumList.add(StatusInternoEnum.ATIVO.getKey());
+        return ResponseEntity.ok(solicitacaoService.getAllByStatusInterno(statusInternoEnumList));
+    }
+
+    @GetMapping("/perfil/finalizado/{id}")
     public ResponseEntity<List<PerfilResponseDTO>> getByIdFinalizado(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(solicitacaoService.getByIdFinalizado(id));
+        List<String> statusInternoEnumList = new ArrayList<>();
+        statusInternoEnumList.add(StatusInternoEnum.FINALIZADO.getKey());
+        return ResponseEntity.ok(solicitacaoService.getByIdStatusInterno(id, statusInternoEnumList));
+    }
+
+    @GetMapping("/perfil/rascunho/{id}")
+    public ResponseEntity<List<PerfilResponseDTO>> getByIdRascunho(@PathVariable("id") Long id) {
+        List<String> statusInternoEnumList = new ArrayList<>();
+        statusInternoEnumList.add(StatusInternoEnum.RASCUNHO.getKey());
+        statusInternoEnumList.add(StatusInternoEnum.ATIVO.getKey());
+        return ResponseEntity.ok(solicitacaoService.getByIdStatusInterno(id, statusInternoEnumList));
     }
 
     @GetMapping("/table/rascunho")

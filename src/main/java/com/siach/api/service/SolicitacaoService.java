@@ -1,5 +1,6 @@
 package com.siach.api.service;
 
+import com.siach.api.enumeration.StatusInternoEnum;
 import com.siach.api.model.dto.*;
 import com.siach.api.model.entity.AtividadeComplementar;
 import com.siach.api.model.entity.Solicitacao;
@@ -14,15 +15,14 @@ public interface SolicitacaoService {
 
     List<SolicitacaoResponseDTO> getAll();
 
-    List<PerfilResponseDTO> getAllFinalizado();
+    List<PerfilResponseDTO> getAllByStatusInterno(List<String> statusInternoEnum);
 
-    List<PerfilResponseDTO> getByIdFinalizado(Long id);
+    List<PerfilResponseDTO> getByIdStatusInterno(Long id, List<String> statusInternoEnum);
 
     SolicitacaoResponseDTO findById(Long id);
 
     List<Solicitacao> ativar(List<Long> ids);
 
     List<SolicitacaoResponseDTO> getAllRascunho();
-
 
 }
