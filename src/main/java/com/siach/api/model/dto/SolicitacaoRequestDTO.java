@@ -16,5 +16,6 @@ public class SolicitacaoRequestDTO {
     private Long idAtividadeBarema;
     private MultipartFile comprovante;
     private String comprovanteNome;
+    private String statusInterno;
 }
 

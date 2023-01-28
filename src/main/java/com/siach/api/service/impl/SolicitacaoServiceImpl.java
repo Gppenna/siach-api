@@ -51,7 +51,9 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                 .comprovante(solicitacaoRequestDTO.getComprovante().getBytes())
                 .titulo(solicitacaoRequestDTO.getTitulo())
                 .idUsuario(usuarioService.findByEmail(solicitacaoRequestDTO.getEmail()).getId())
-                .statusInterno(StatusInternoEnum.RASCUNHO.getKey())
+                .statusInterno(Objects.equals(solicitacaoRequestDTO.getStatusInterno(), "E") ?
+                        StatusInternoEnum.EXCEDENTE.getKey() :
+                        StatusInternoEnum.RASCUNHO.getKey())
                 .comprovanteNome(solicitacaoRequestDTO.getComprovanteNome())
                 .build();
         return solicitacaoRepository.save(solicitacao);
@@ -61,6 +63,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     public List<SolicitacaoResponseDTO> getAll() {
         List<String> statusList = new ArrayList<>();
         statusList.add(StatusInternoEnum.ATIVO.getKey());
+        statusList.add(StatusInternoEnum.EXCEDENTE_ATIVO.getKey());
         statusList.add(StatusInternoEnum.FINALIZADO.getKey());
         List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoIn(statusList);
         List<SolicitacaoResponseDTO> solicitacaoResponseDTOList = new ArrayList<>();
@@ -73,6 +76,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                     .comprovante(solicitacao.getComprovante())
                     .solicitacaoProgressoList(solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getId()))
                     .horas(solicitacao.getHoras())
+                    .statusInterno(solicitacao.getStatusInterno())
                     .titulo(solicitacao.getTitulo())
                     .comprovanteNome(solicitacao.getComprovanteNome())
                     .build();
@@ -180,7 +184,11 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 
     @Override
     public List<SolicitacaoResponseDTO> getAllRascunho() {
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInterno(StatusInternoEnum.RASCUNHO.getKey());
+        List<String> statusInternos = new ArrayList<>();
+        statusInternos.add(StatusInternoEnum.RASCUNHO.getKey());
+        statusInternos.add(StatusInternoEnum.EXCEDENTE.getKey());
+
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoIn(statusInternos);
         List<SolicitacaoResponseDTO> solicitacaoResponseDTOList = new ArrayList<>();
 
         solicitacaoList.forEach(solicitacao -> {
@@ -190,6 +198,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                     .grupoBarema(solicitacao.getAtividadeBarema().getGrupoBarema())
                     .comprovante(solicitacao.getComprovante())
                     .horas(solicitacao.getHoras())
+                    .statusInterno(solicitacao.getStatusInterno())
                     .titulo(solicitacao.getTitulo())
                     .comprovanteNome(solicitacao.getComprovanteNome())
                     .build();
@@ -203,7 +212,12 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
         List<Solicitacao> solicitacaoList = solicitacaoRepository.findByIdIn(ids);
 
         solicitacaoList.forEach(solicitacao -> {
-            solicitacao.setStatusInterno(StatusInternoEnum.ATIVO.getKey());
+            if(!Objects.equals(solicitacao.getStatusInterno(), "E")) {
+                solicitacao.setStatusInterno(StatusInternoEnum.ATIVO.getKey());
+            }
+            else {
+                solicitacao.setStatusInterno(StatusInternoEnum.EXCEDENTE_ATIVO.getKey());
+            }
             SolicitacaoProgresso solicitacaoProgresso = SolicitacaoProgresso.builder()
                     .idStatus(1L)
                     .idSolicitacao(solicitacao.getId())
@@ -238,6 +252,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                     .comprovante(solicitacao.getComprovante())
                     .solicitacaoProgressoList(solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getId()))
                     .horas(solicitacao.getHoras())
+                    .statusInterno(solicitacao.getStatusInterno())
                     .titulo(solicitacao.getTitulo())
                     .comprovanteNome(solicitacao.getComprovanteNome())
                     .build();

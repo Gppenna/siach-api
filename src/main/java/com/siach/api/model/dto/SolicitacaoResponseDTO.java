@@ -23,5 +23,6 @@ public class SolicitacaoResponseDTO {
     private UsuarioResponseDTO usuarioResponseDTO;
     private Long id;
     private List<SolicitacaoProgresso> solicitacaoProgressoList;
+    private String statusInterno;
 }
 
