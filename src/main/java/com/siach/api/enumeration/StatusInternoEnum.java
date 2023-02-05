@@ -23,4 +23,13 @@ public enum StatusInternoEnum {
     public String getValue() {
         return this.value;
     }
+
+    public static StatusInternoEnum getEnumByKey(String key) {
+        for (StatusInternoEnum m : StatusInternoEnum.values()) {
+            if (m.getKey().equals(key)) {
+                return m;
+            }
+        }
+        return null;
+    }
 }

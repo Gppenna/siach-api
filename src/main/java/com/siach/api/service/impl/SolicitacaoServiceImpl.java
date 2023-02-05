@@ -1,6 +1,7 @@
 package com.siach.api.service.impl;
 
 import com.siach.api.enumeration.StatusInternoEnum;
+import com.siach.api.factory.PerfilFactory;
 import com.siach.api.model.dto.*;
 import com.siach.api.model.entity.AtividadeBarema;
 import com.siach.api.model.entity.GrupoBarema;
@@ -14,8 +15,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 @Service
 public class SolicitacaoServiceImpl implements SolicitacaoService {
@@ -86,100 +85,20 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     }
 
     @Override
-    public List<PerfilResponseDTO> getAllByStatusInterno(List<String> statusInternoEnum) {
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoIn(statusInternoEnum);
-        List<GrupoBaremaResponseDTO> grupoBaremaList = grupoBaremaService.getAll();
+    public SolicitacaoResponseDTO findById(Long id) {
+        Solicitacao solicitacao = solicitacaoRepository.findById(id).get();
 
-        List<PerfilResponseDTO> perfilResponseDTOList = new ArrayList<>();
-
-        grupoBaremaList.forEach(grupoBarema -> {
-            HashMap<Long, PerfilBaremaResponseDTO> grupoBaremaMap = new HashMap<>();
-            grupoBaremaMap.put(grupoBarema.getId(),PerfilBaremaResponseDTO.builder()
-                    .descricao(grupoBarema.getDescricao())
-                    .horasLimite(grupoBarema.getMinimoHoras()).build());
-
-            PerfilResponseDTO perfilResponseDTO = PerfilResponseDTO.builder()
-                    .perfilGrupo(grupoBaremaMap)
-                    .perfilAtividadeList(getAtividadeList(grupoBarema))
-                    .build();
-            perfilResponseDTOList.add(perfilResponseDTO);
-        });
-
-        solicitacaoList.forEach(solicitacao -> perfilResponseDTOList.forEach(perfilResponseDTO -> {
-            if(perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema()) != null) {
-                PerfilBaremaResponseDTO atividade = perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema());
-                atividade.setHorasContabilizadas(atividade.getHorasContabilizadas() + solicitacao.getHoras());
-                if(atividade.getHorasContabilizadas() > atividade.getHorasLimite()) {
-                    atividade.setHorasContabilizadas(atividade.getHorasLimite());
-                }
-                perfilResponseDTO.getPerfilAtividadeList().put(solicitacao.getIdAtividadeBarema(), atividade);
-            }
-        }));
-        perfilResponseDTOList.forEach(perfilResponseDTO -> {
-            AtomicReference<Long> horas = new AtomicReference<>(0L);
-            perfilResponseDTO.getPerfilAtividadeList().forEach((key, value) -> horas.updateAndGet(v -> v + value.getHorasContabilizadas()));
-            perfilResponseDTO.getPerfilGrupo().forEach((key, value) -> value.setHorasContabilizadas(horas.get()));
-        });
-        return perfilResponseDTOList;
-    }
-
-    @Override
-    public List<PerfilResponseDTO> getByIdStatusInterno(Long id, List<String> statusInternoEnum) {
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdAtividadeBarema(statusInternoEnum, id);
-        AtividadeBarema atividadeBarema = atividadeBaremaService.findById(id);
-
-        GrupoBarema grupoBaremaEntity = atividadeBarema.getGrupoBarema();
-        List<AtividadeBarema> atividadeBaremaList = new ArrayList<>();
-        atividadeBaremaList.add(atividadeBarema);
-
-        GrupoBaremaResponseDTO grupoBarema = GrupoBaremaResponseDTO.builder()
-                .id(grupoBaremaEntity.getId())
-                .descricao(grupoBaremaEntity.getDescricao())
-                .minimoHoras(grupoBaremaEntity.getMinimoHoras())
-                .numero(grupoBaremaEntity.getNumero())
-                .atividadeBaremaList(atividadeBaremaList)
+        return SolicitacaoResponseDTO.builder()
+                .id(solicitacao.getId())
+                .atividadeBarema(solicitacao.getAtividadeBarema())
+                .grupoBarema(solicitacao.getAtividadeBarema().getGrupoBarema())
+                .comprovante(solicitacao.getComprovante())
+                .solicitacaoProgressoList(solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getId()))
+                .horas(solicitacao.getHoras())
+                .statusInterno(solicitacao.getStatusInterno())
+                .titulo(solicitacao.getTitulo())
+                .comprovanteNome(solicitacao.getComprovanteNome())
                 .build();
-
-        List<PerfilResponseDTO> perfilResponseDTOList = new ArrayList<>();
-
-        HashMap<Long, PerfilBaremaResponseDTO> grupoBaremaMap = new HashMap<>();
-        grupoBaremaMap.put(grupoBarema.getId(),PerfilBaremaResponseDTO.builder()
-                .descricao(grupoBarema.getDescricao())
-                .horasLimite(grupoBarema.getMinimoHoras()).build());
-
-        PerfilResponseDTO perfilResponseDTOTMP = PerfilResponseDTO.builder()
-                .perfilGrupo(grupoBaremaMap)
-                .perfilAtividadeList(getAtividadeList(grupoBarema))
-                    .build();
-        perfilResponseDTOList.add(perfilResponseDTOTMP);
-
-        solicitacaoList.forEach(solicitacao -> perfilResponseDTOList.forEach(perfilResponseDTO -> {
-            if(perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema()) != null) {
-                PerfilBaremaResponseDTO atividade = perfilResponseDTO.getPerfilAtividadeList().get(solicitacao.getIdAtividadeBarema());
-                atividade.setHorasContabilizadas(atividade.getHorasContabilizadas() + solicitacao.getHoras());
-                if(atividade.getHorasContabilizadas() > atividade.getHorasLimite()) {
-                    atividade.setHorasContabilizadas(atividade.getHorasLimite());
-                }
-                perfilResponseDTO.getPerfilAtividadeList().put(solicitacao.getIdAtividadeBarema(), atividade);
-            }
-        }));
-        perfilResponseDTOList.forEach(perfilResponseDTO -> {
-            AtomicReference<Long> horas = new AtomicReference<>(0L);
-            perfilResponseDTO.getPerfilAtividadeList().forEach((key, value) -> horas.updateAndGet(v -> v + value.getHorasContabilizadas()));
-            perfilResponseDTO.getPerfilGrupo().forEach((key, value) -> value.setHorasContabilizadas(horas.get()));
-        });
-        return perfilResponseDTOList;
-    }
-
-    HashMap<Long, PerfilBaremaResponseDTO> getAtividadeList(GrupoBaremaResponseDTO grupoBarema) {
-        HashMap<Long, PerfilBaremaResponseDTO> atividadeBaremaMap = new HashMap<>();
-        grupoBarema.getAtividadeBaremaList().forEach(atividadeBarema -> {
-            PerfilBaremaResponseDTO perfilBaremaResponseDTO = new PerfilBaremaResponseDTO();
-            perfilBaremaResponseDTO.setHorasLimite(atividadeBarema.getMinimoHoras());
-            perfilBaremaResponseDTO.setDescricao(atividadeBarema.getDescricao());
-            atividadeBaremaMap.put(atividadeBarema.getId(), perfilBaremaResponseDTO);
-        });
-        return atividadeBaremaMap;
     }
 
     @Override
@@ -240,26 +159,5 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 
         return solicitacaoList;
     }
-
-    @Override
-    public SolicitacaoResponseDTO findById(Long id) {
-        Solicitacao solicitacao = solicitacaoRepository.findById(id).get();
-
-        return SolicitacaoResponseDTO.builder()
-                    .id(solicitacao.getId())
-                    .atividadeBarema(solicitacao.getAtividadeBarema())
-                    .grupoBarema(solicitacao.getAtividadeBarema().getGrupoBarema())
-                    .comprovante(solicitacao.getComprovante())
-                    .solicitacaoProgressoList(solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getId()))
-                    .horas(solicitacao.getHoras())
-                    .statusInterno(solicitacao.getStatusInterno())
-                    .titulo(solicitacao.getTitulo())
-                    .comprovanteNome(solicitacao.getComprovanteNome())
-                    .build();
-    }
-
-
-
-
 
 }
