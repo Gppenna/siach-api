@@ -3,16 +3,23 @@ package com.siach.api.service.impl;
 import com.siach.api.model.dto.AtividadeComplementarRequestDTO;
 import com.siach.api.model.dto.AtividadeComplementarResponseDTO;
 import com.siach.api.model.entity.AtividadeComplementar;
+import com.siach.api.model.filter.AtividadeComplementarFiltroDTO;
 import com.siach.api.repository.AtividadeComplementarRepository;
 import com.siach.api.service.AtividadeComplementarService;
 import com.siach.api.service.GrupoBaremaService;
+import com.siach.api.util.FiltroUtil;
+import com.siach.api.util.MapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AtividadeComplementarServiceImpl implements AtividadeComplementarService {
@@ -39,24 +46,22 @@ public class AtividadeComplementarServiceImpl implements AtividadeComplementarSe
     }
 
     @Override
-    public List<AtividadeComplementarResponseDTO> getAll() {
-        List<AtividadeComplementar> atividadeComplementarList = atividadeComplementarRepository.findAll();
+    public Page<AtividadeComplementarResponseDTO> getAll(String query, Pageable pageable) {
+        Page<AtividadeComplementar> atividadeComplementarPage =
+                atividadeComplementarRepository.findAllByFilter(FiltroUtil.getFilter(query, AtividadeComplementarFiltroDTO.class), pageable);
+        List<AtividadeComplementar> atividadeComplementarList = atividadeComplementarPage.getContent();
+
         List<AtividadeComplementarResponseDTO> atividadeComplementarResponseDTOList = new ArrayList<>();
 
-        atividadeComplementarList.forEach(atividadeComplementar -> {
-            AtividadeComplementarResponseDTO atividadeComplementarResponseDTO = AtividadeComplementarResponseDTO.builder()
-                    .atividadeBarema(atividadeComplementar.getAtividadeBarema())
-                    .grupoBarema(atividadeComplementar.getAtividadeBarema().getGrupoBarema())
-                    .descricao(atividadeComplementar.getDescricao())
-                    .imagem(atividadeComplementar.getImagem())
-                    .periodoFim(atividadeComplementar.getPeriodoFim())
-                    .periodoInicio(atividadeComplementar.getPeriodoInicio())
-                    .horas(atividadeComplementar.getHoras())
-                    .titulo(atividadeComplementar.getTitulo())
-                    .build();
-            atividadeComplementarResponseDTOList.add(atividadeComplementarResponseDTO);
-        });
-        return atividadeComplementarResponseDTOList;
+        for (AtividadeComplementar atividadeComplementar : atividadeComplementarList) {
+            List<Object> objectList = new ArrayList<>();
+            objectList.add(new AtividadeComplementarResponseDTO());
+            objectList.add(atividadeComplementar);
+
+            atividadeComplementarResponseDTOList.add((AtividadeComplementarResponseDTO) MapperUtils.mergeObjects(objectList));
+        }
+
+        return new PageImpl<>(atividadeComplementarResponseDTOList, pageable, atividadeComplementarPage.getTotalPages());
     }
 
 }
