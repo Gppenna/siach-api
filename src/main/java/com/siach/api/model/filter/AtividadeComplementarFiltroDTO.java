@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AtividadeComplementarFiltroDTO {
-    private Integer atividadeBaremaId;
-    private Integer grupoBaremaId;
-    private Integer cargaHoraria;
+    private Long atividadeBaremaId;
+    private Long grupoBaremaId;
+    private Long cargaHoraria;
 }

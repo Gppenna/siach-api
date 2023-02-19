@@ -14,4 +14,5 @@ public class UsuarioResponseDTO {
     private Curso curso;
     private String nome;
     private String email;
+    private Boolean temaEscuro;
 }

@@ -40,4 +40,7 @@ public class Usuario {
 
     @Column(name = "status")
     private Long status;
+
+    @Column(name = "tema_escuro")
+    private Boolean temaEscuro;
 }

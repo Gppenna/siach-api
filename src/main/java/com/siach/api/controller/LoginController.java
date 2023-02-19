@@ -36,4 +36,9 @@ public class LoginController {
 
     }
 
+    @PutMapping("/user/tema")
+    public void temaToggle(@RequestParam("name") String name) {
+       usuarioService.temaToggle(name);
+    }
+
 }

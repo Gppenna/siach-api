@@ -58,6 +58,10 @@ public class AtividadeComplementarServiceImpl implements AtividadeComplementarSe
             objectList.add(new AtividadeComplementarResponseDTO());
             objectList.add(atividadeComplementar);
 
+            AtividadeComplementarResponseDTO atividadeComplementarResponseDTO =
+                    (AtividadeComplementarResponseDTO) MapperUtils.mergeObjects(objectList);
+            atividadeComplementarResponseDTO.setGrupoBarema(atividadeComplementar.getAtividadeBarema().getGrupoBarema());
+
             atividadeComplementarResponseDTOList.add((AtividadeComplementarResponseDTO) MapperUtils.mergeObjects(objectList));
         }
 
