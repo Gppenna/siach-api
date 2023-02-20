@@ -53,8 +53,8 @@ public class AtividadeBaremaServiceImpl implements AtividadeBaremaService {
     }
 
     @Override
-    public List<AtividadeBarema> getAll() {
-        return atividadeBaremaRepository.findAll();
+    public List<AtividadeBarema> getAll(Long idCurso) {
+        return atividadeBaremaRepository.findAllByIdCurso(idCurso);
     }
 
     @Override

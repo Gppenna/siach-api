@@ -39,15 +39,15 @@ public class PerfilServiceImpl implements PerfilService {
     }
 
     @Override
-    public List<PerfilResponseDTO> getAllPerfil() {
+    public List<PerfilResponseDTO> getAllPerfil(Long id) {
         List<String> statusInterno = new ArrayList<>();
         statusInterno.add(StatusInternoEnum.FINALIZADO.getKey());
         statusInterno.add(StatusInternoEnum.RASCUNHO.getKey());
         statusInterno.add(StatusInternoEnum.ATIVO.getKey());
 
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoIn(statusInterno);
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdUsuario(statusInterno, id);
 
-        List<GrupoBaremaResponseDTO> grupoBaremaList = grupoBaremaService.getAll();
+        List<GrupoBaremaResponseDTO> grupoBaremaList = grupoBaremaService.getAll(id);
 
         return PerfilFactory.getPerfilResponseDTO(solicitacaoList, grupoBaremaList);
     }

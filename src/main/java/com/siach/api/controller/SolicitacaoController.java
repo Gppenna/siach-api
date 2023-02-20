@@ -40,14 +40,14 @@ public class SolicitacaoController {
         return ResponseEntity.ok(solicitacaoService.ativar(ids));
     }
 
-    @GetMapping("/table")
-    public ResponseEntity<List<SolicitacaoResponseDTO>> getAll() {
-        return ResponseEntity.ok(solicitacaoService.getAll());
+    @GetMapping("/table/{id}")
+    public ResponseEntity<List<SolicitacaoResponseDTO>> getAll(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(solicitacaoService.getAll(id));
     }
 
-    @GetMapping("/table/rascunho")
-    public ResponseEntity<List<SolicitacaoResponseDTO>> getAllRascunho() {
-        return ResponseEntity.ok(solicitacaoService.getAllRascunho());
+    @GetMapping("/table/rascunho/{id}")
+    public ResponseEntity<List<SolicitacaoResponseDTO>> getAllRascunho(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(solicitacaoService.getAllRascunho(id));
     }
 
     @GetMapping("detalhe/{id}")

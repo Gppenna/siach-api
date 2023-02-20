@@ -10,12 +10,12 @@ public interface SolicitacaoService {
 
     Solicitacao save(SolicitacaoRequestDTO solicitacaoRequestDTO) throws IOException;
 
-    List<SolicitacaoResponseDTO> getAll();
+    List<SolicitacaoResponseDTO> getAll(Long idUsuario);
 
     SolicitacaoResponseDTO findById(Long id);
 
     List<Solicitacao> ativar(List<Long> ids);
 
-    List<SolicitacaoResponseDTO> getAllRascunho();
+    List<SolicitacaoResponseDTO> getAllRascunho(Long idUsuario);
 
 }

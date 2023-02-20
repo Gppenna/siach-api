@@ -36,9 +36,9 @@ public class AtividadeBaremaController {
         atividadeBaremaService.deletar(id);
     }
 
-    @GetMapping("/table")
-    public ResponseEntity<List<AtividadeBarema>> getAll() {
-        return ResponseEntity.ok(atividadeBaremaService.getAll());
+    @GetMapping("/table/{id}")
+    public ResponseEntity<List<AtividadeBarema>> getAll(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(atividadeBaremaService.getAll(id));
     }
 
 

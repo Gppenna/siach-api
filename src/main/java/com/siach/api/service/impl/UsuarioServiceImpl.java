@@ -38,7 +38,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void temaToggle(String email) {
         Usuario loggedUser = usuarioRepository.findByEmail(email);
-        loggedUser.setTemaEscuro(!loggedUser.getTemaEscuro());
+        if(loggedUser.getTemaEscuro() == null) {
+            loggedUser.setTemaEscuro(true);
+        }
+        else {
+            loggedUser.setTemaEscuro(!loggedUser.getTemaEscuro());
+        }
+
         usuarioRepository.save(loggedUser);
     }
 

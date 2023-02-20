@@ -46,9 +46,11 @@ public class AtividadeComplementarServiceImpl implements AtividadeComplementarSe
     }
 
     @Override
-    public Page<AtividadeComplementarResponseDTO> getAll(String query, Pageable pageable) {
+    public Page<AtividadeComplementarResponseDTO> getAll(String query, Pageable pageable, Long idCurso) {
+        AtividadeComplementarFiltroDTO atividadeComplementarFiltroDTO = FiltroUtil.getFilter(query, AtividadeComplementarFiltroDTO.class);
+        atividadeComplementarFiltroDTO.setIdCurso(idCurso);
         Page<AtividadeComplementar> atividadeComplementarPage =
-                atividadeComplementarRepository.findAllByFilter(FiltroUtil.getFilter(query, AtividadeComplementarFiltroDTO.class), pageable);
+                atividadeComplementarRepository.findAllByFilter(atividadeComplementarFiltroDTO, pageable);
         List<AtividadeComplementar> atividadeComplementarList = atividadeComplementarPage.getContent();
 
         List<AtividadeComplementarResponseDTO> atividadeComplementarResponseDTOList = new ArrayList<>();

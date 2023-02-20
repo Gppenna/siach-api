@@ -15,5 +15,5 @@ public interface AtividadeComplementarService {
 
     AtividadeComplementar save(AtividadeComplementarRequestDTO atividadeComplementarRequestDTO) throws IOException;
 
-    Page<AtividadeComplementarResponseDTO> getAll(String query, Pageable pageable);
+    Page<AtividadeComplementarResponseDTO> getAll(String query, Pageable pageable, Long id);
 }

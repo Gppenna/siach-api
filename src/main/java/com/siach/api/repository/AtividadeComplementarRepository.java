@@ -15,6 +15,7 @@ public interface AtividadeComplementarRepository extends JpaRepository<Atividade
     @Query("SELECT ac FROM AtividadeComplementar ac JOIN ac.atividadeBarema ab " +
             "WHERE (:#{#atividadeComplementarFiltro.atividadeBaremaId} IS NULL OR ac.atividadeBarema.id = :#{#atividadeComplementarFiltro.atividadeBaremaId}) " +
             "AND (CURRENT_DATE BETWEEN ac.periodoInicio AND ac.periodoFim) " +
+            "AND (ab.grupoBarema.idCurso = :#{#atividadeComplementarFiltro.idCurso}) " +
             "AND (:#{#atividadeComplementarFiltro.grupoBaremaId} IS NULL OR ab.grupoBarema.id = :#{#atividadeComplementarFiltro.grupoBaremaId}) " +
             "AND (:#{#atividadeComplementarFiltro.cargaHoraria} IS NULL OR ac.horas >= :#{#atividadeComplementarFiltro.cargaHoraria})")
     Page<AtividadeComplementar> findAllByFilter(@Param("atividadeComplementarFiltro") AtividadeComplementarFiltroDTO filter, Pageable pageable);

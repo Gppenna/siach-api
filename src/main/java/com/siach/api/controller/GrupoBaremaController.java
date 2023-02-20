@@ -32,9 +32,9 @@ public class GrupoBaremaController {
         return ResponseEntity.ok(grupoBaremaService.getById(id));
     }
 
-    @GetMapping("/table")
-    public ResponseEntity<List<GrupoBaremaResponseDTO>> getAll() {
-        return ResponseEntity.ok(grupoBaremaService.getAll());
+    @GetMapping("/table/{id}")
+    public ResponseEntity<List<GrupoBaremaResponseDTO>> getAll(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(grupoBaremaService.getAll(id));
     }
 
     @PostMapping("/criar")

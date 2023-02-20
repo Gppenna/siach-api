@@ -10,7 +10,7 @@ public interface GrupoBaremaService {
 
     GrupoBarema getById(Long id);
 
-    List<GrupoBaremaResponseDTO> getAll();
+    List<GrupoBaremaResponseDTO> getAll(Long idCurso);
 
 
     GrupoBarema save(GrupoBaremaRequestDTO grupoBaremaRequestDTO);

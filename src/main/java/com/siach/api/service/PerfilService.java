@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PerfilService {
 
-    List<PerfilResponseDTO> getAllPerfil();
+    List<PerfilResponseDTO> getAllPerfil(Long id);
 
     List<PerfilResponseDTO> getPerfilById(Long id);
 

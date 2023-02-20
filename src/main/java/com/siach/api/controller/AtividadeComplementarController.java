@@ -43,14 +43,14 @@ public class AtividadeComplementarController {
         return ResponseEntity.ok(atividadeComplementarService.save(atividadeComplementarRequestDTO));
     }
 
-    @GetMapping("/table")
+    @GetMapping("/table/{id}")
     public ResponseEntity<PageDTO<AtividadeComplementarResponseDTO>> getAll(@RequestParam("page") Integer page,
                                                                             @RequestParam("limit") Integer limit,
-
+                                                                            @PathVariable("id") Long id,
                                                                             @RequestParam(value = "_q", required = false, defaultValue = "") String query) {
         Sort sort = Sort.by(Sort.Direction.DESC, "periodoInicio");
         Pageable pageable = PageRequest.of(page, limit, sort);
-        return ResponseEntity.ok(PageableUtil.getPageable(atividadeComplementarService.getAll(query, pageable)));
+        return ResponseEntity.ok(PageableUtil.getPageable(atividadeComplementarService.getAll(query, pageable, id)));
     }
 
 

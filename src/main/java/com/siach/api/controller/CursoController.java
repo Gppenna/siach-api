@@ -36,5 +36,10 @@ public class CursoController {
         return ResponseEntity.ok(cursoService.editarCH(curso));
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<List<Curso>> getAll() {
+        return ResponseEntity.ok(cursoService.findAll());
+    }
+
 
 }

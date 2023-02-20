@@ -59,12 +59,12 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     }
 
     @Override
-    public List<SolicitacaoResponseDTO> getAll() {
+    public List<SolicitacaoResponseDTO> getAll(Long idUsuario) {
         List<String> statusList = new ArrayList<>();
         statusList.add(StatusInternoEnum.ATIVO.getKey());
         statusList.add(StatusInternoEnum.EXCEDENTE_ATIVO.getKey());
         statusList.add(StatusInternoEnum.FINALIZADO.getKey());
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoIn(statusList);
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdUsuario(statusList, idUsuario);
         List<SolicitacaoResponseDTO> solicitacaoResponseDTOList = new ArrayList<>();
 
         solicitacaoList.forEach(solicitacao -> {
@@ -102,12 +102,12 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     }
 
     @Override
-    public List<SolicitacaoResponseDTO> getAllRascunho() {
+    public List<SolicitacaoResponseDTO> getAllRascunho(Long idUsuario) {
         List<String> statusInternos = new ArrayList<>();
         statusInternos.add(StatusInternoEnum.RASCUNHO.getKey());
         statusInternos.add(StatusInternoEnum.EXCEDENTE.getKey());
 
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoIn(statusInternos);
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdUsuario(statusInternos ,idUsuario);
         List<SolicitacaoResponseDTO> solicitacaoResponseDTOList = new ArrayList<>();
 
         solicitacaoList.forEach(solicitacao -> {

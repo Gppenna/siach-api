@@ -14,4 +14,5 @@ public class AtividadeComplementarFiltroDTO {
     private Long atividadeBaremaId;
     private Long grupoBaremaId;
     private Long cargaHoraria;
+    private Long idCurso;
 }

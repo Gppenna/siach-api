@@ -11,5 +11,5 @@ import java.util.List;
 public interface CursoService {
     Curso editarCH(Curso curso);
 
-
+    List<Curso> findAll();
 }
