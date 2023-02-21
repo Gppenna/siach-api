@@ -19,6 +19,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -84,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     } catch (ServletException e) {
                         throw new RuntimeException(e);
                     }
-                })
+                }).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/")
         ).httpBasic();
 
         http.csrf().disable();
