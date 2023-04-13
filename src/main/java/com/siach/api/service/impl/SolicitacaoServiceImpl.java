@@ -1,10 +1,7 @@
 package com.siach.api.service.impl;
 
 import com.siach.api.enumeration.StatusInternoEnum;
-import com.siach.api.factory.PerfilFactory;
 import com.siach.api.model.dto.*;
-import com.siach.api.model.entity.AtividadeBarema;
-import com.siach.api.model.entity.GrupoBarema;
 import com.siach.api.model.entity.Solicitacao;
 import com.siach.api.model.entity.SolicitacaoProgresso;
 import com.siach.api.repository.SolicitacaoRepository;
@@ -22,21 +19,17 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     private final SolicitacaoRepository solicitacaoRepository;
 
     private final UsuarioService usuarioService;
-    private final GrupoBaremaService grupoBaremaService;
-    private final AtividadeBaremaService atividadeBaremaService;
+    private final ParecerService parecerService;
     private final SolicitacaoProgressoService solicitacaoProgressoService;
 
     @Autowired
     public SolicitacaoServiceImpl(
             SolicitacaoRepository solicitacaoRepository,
             UsuarioService usuarioService,
-            GrupoBaremaService grupoBaremaService,
-            AtividadeBaremaService atividadeBaremaService,
-            SolicitacaoProgressoService solicitacaoProgressoService) {
+            ParecerService parecerService, SolicitacaoProgressoService solicitacaoProgressoService) {
         this.solicitacaoRepository = solicitacaoRepository;
         this.usuarioService = usuarioService;
-        this.grupoBaremaService = grupoBaremaService;
-        this.atividadeBaremaService = atividadeBaremaService;
+        this.parecerService = parecerService;
         this.solicitacaoProgressoService = solicitacaoProgressoService;
     }
 
@@ -98,6 +91,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                 .statusInterno(solicitacao.getStatusInterno())
                 .titulo(solicitacao.getTitulo())
                 .comprovanteNome(solicitacao.getComprovanteNome())
+                .parecerList(parecerService.getParecerBySolicitacao(id))
                 .build();
     }
 

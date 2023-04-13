@@ -2,6 +2,7 @@ package com.siach.api.model.dto;
 
 import com.siach.api.model.entity.AtividadeBarema;
 import com.siach.api.model.entity.GrupoBarema;
+import com.siach.api.model.entity.Parecer;
 import com.siach.api.model.entity.SolicitacaoProgresso;
 import lombok.*;
 
@@ -24,5 +25,6 @@ public class SolicitacaoResponseDTO {
     private Long id;
     private List<SolicitacaoProgresso> solicitacaoProgressoList;
     private String statusInterno;
+    private List<Parecer> parecerList;
 }
 
