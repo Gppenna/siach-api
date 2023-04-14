@@ -17,7 +17,7 @@ public class AtividadeBarema {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "atividade_barema_seq")
     @SequenceGenerator(name = "atividade_barema_seq", sequenceName = "atividade_barema_seq", allocationSize = 1)
     @Column(name = "id_atividade_barema")
-    private Long id;
+    private Long idAtividadeBarema;
 
     @Column(name = "descricao")
     private String descricao;

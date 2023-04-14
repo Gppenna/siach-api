@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface GrupoBaremaRepository extends JpaRepository<GrupoBarema, Long> {
 
-    Optional<GrupoBarema> findById(Long id);
+    Optional<GrupoBarema> findByIdGrupoBarema(Long idGrupoBarema);
 
     List<GrupoBarema> findAllByIdCurso(Long idCurso);
 }

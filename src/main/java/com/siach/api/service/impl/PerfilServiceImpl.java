@@ -4,37 +4,34 @@ import com.siach.api.enumeration.StatusInternoEnum;
 import com.siach.api.factory.PerfilFactory;
 import com.siach.api.model.dto.GrupoBaremaResponseDTO;
 import com.siach.api.model.dto.PerfilResponseDTO;
-import com.siach.api.model.dto.SolicitacaoRequestDTO;
-import com.siach.api.model.dto.SolicitacaoResponseDTO;
 import com.siach.api.model.entity.AtividadeBarema;
 import com.siach.api.model.entity.GrupoBarema;
 import com.siach.api.model.entity.Solicitacao;
-import com.siach.api.model.entity.SolicitacaoProgresso;
 import com.siach.api.repository.SolicitacaoRepository;
 import com.siach.api.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class PerfilServiceImpl implements PerfilService {
 
     private final SolicitacaoRepository solicitacaoRepository;
     private final GrupoBaremaService grupoBaremaService;
+
+    private final UsuarioService usuarioService;
     private final AtividadeBaremaService atividadeBaremaService;
 
     @Autowired
     public PerfilServiceImpl(
             SolicitacaoRepository solicitacaoRepository,
             GrupoBaremaService grupoBaremaService,
-            AtividadeBaremaService atividadeBaremaService) {
+            UsuarioService usuarioService, AtividadeBaremaService atividadeBaremaService) {
         this.solicitacaoRepository = solicitacaoRepository;
         this.grupoBaremaService = grupoBaremaService;
+        this.usuarioService = usuarioService;
         this.atividadeBaremaService = atividadeBaremaService;
     }
 
@@ -47,7 +44,7 @@ public class PerfilServiceImpl implements PerfilService {
 
         List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdUsuario(statusInterno, id);
 
-        List<GrupoBaremaResponseDTO> grupoBaremaList = grupoBaremaService.getAll(id);
+        List<GrupoBaremaResponseDTO> grupoBaremaList = grupoBaremaService.getAll(usuarioService.findByIdUsuario(id).getIdCurso());
 
         return PerfilFactory.getPerfilResponseDTO(solicitacaoList, grupoBaremaList);
     }
@@ -67,7 +64,7 @@ public class PerfilServiceImpl implements PerfilService {
         atividadeBaremaList.add(atividadeBarema);
 
         GrupoBaremaResponseDTO grupoBarema = GrupoBaremaResponseDTO.builder()
-                .id(grupoBaremaEntity.getId())
+                .idGrupoBarema(grupoBaremaEntity.getIdGrupoBarema())
                 .descricao(grupoBaremaEntity.getDescricao())
                 .minimoHoras(grupoBaremaEntity.getMinimoHoras())
                 .numero(grupoBaremaEntity.getNumero())

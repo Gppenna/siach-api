@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioResponseDTO {
-    private Long id;
+    private Long idUsuario;
     private String matricula;
     private Curso curso;
     private String nome;

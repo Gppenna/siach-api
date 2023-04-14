@@ -34,7 +34,7 @@ public class GrupoBaremaServiceImpl implements GrupoBaremaService {
     @Override
     public GrupoBarema save(GrupoBaremaRequestDTO grupoBaremaRequestDTO) {
         GrupoBarema grupoBarema = GrupoBarema.builder()
-                .id(grupoBaremaRequestDTO.getId())
+                .idGrupoBarema(grupoBaremaRequestDTO.getIdGrupoBarema())
                 .idCurso(grupoBaremaRequestDTO.getIdCurso())
                 .descricao(grupoBaremaRequestDTO.getDescricao())
                 .minimoHoras(grupoBaremaRequestDTO.getMinimoHoras())
@@ -48,9 +48,9 @@ public class GrupoBaremaServiceImpl implements GrupoBaremaService {
         List<GrupoBarema> baremaList = grupoBaremaRepository.findAllByIdCurso(idCurso);
         List<GrupoBaremaResponseDTO> baremaDTOList = new ArrayList<>();
         baremaList.forEach(barema -> {
-            List<AtividadeBarema> atividadeList = atividadeBaremaService.findByIdGrupoBarema(barema.getId());
+            List<AtividadeBarema> atividadeList = atividadeBaremaService.findByIdGrupoBarema(barema.getIdGrupoBarema());
             GrupoBaremaResponseDTO baremaDTO = GrupoBaremaResponseDTO.builder()
-                    .id(barema.getId())
+                    .idGrupoBarema(barema.getIdGrupoBarema())
                     .descricao(barema.getDescricao())
                     .minimoHoras(barema.getMinimoHoras())
                     .numero(barema.getNumero())

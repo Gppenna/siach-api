@@ -17,7 +17,7 @@ public class TipoUsuario {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_usuario_seq")
     @SequenceGenerator(name = "tipo_usuario_seq", sequenceName = "tipo_usuario_seq", allocationSize = 1)
     @Column(name = "id_tipo_usuario")
-    private Long id;
+    private Long idTipoUsuario;
 
     @Column(name = "acesso")
     private Long acesso;

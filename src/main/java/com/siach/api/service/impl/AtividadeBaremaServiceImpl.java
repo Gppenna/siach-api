@@ -1,17 +1,12 @@
 package com.siach.api.service.impl;
 
 import com.siach.api.model.dto.AtividadeBaremaRequestDTO;
-import com.siach.api.model.dto.GrupoBaremaRequestDTO;
 import com.siach.api.model.entity.AtividadeBarema;
-import com.siach.api.model.entity.GrupoBarema;
 import com.siach.api.repository.AtividadeBaremaRepository;
-import com.siach.api.repository.GrupoBaremaRepository;
 import com.siach.api.service.AtividadeBaremaService;
-import com.siach.api.service.GrupoBaremaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -33,7 +28,7 @@ public class AtividadeBaremaServiceImpl implements AtividadeBaremaService {
 
     @Override
     public List<AtividadeBarema> findByIdIn(Set<Long> id) {
-        return atividadeBaremaRepository.findByIdIn(id);
+        return atividadeBaremaRepository.findByIdAtividadeBaremaIn(id);
     }
 
     @Override

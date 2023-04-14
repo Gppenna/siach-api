@@ -22,7 +22,7 @@ public class SolicitacaoResponseDTO {
     private byte[] comprovante;
     private String comprovanteNome;
     private UsuarioResponseDTO usuarioResponseDTO;
-    private Long id;
+    private Long idSolicitacao;
     private List<SolicitacaoProgresso> solicitacaoProgressoList;
     private String statusInterno;
     private List<Parecer> parecerList;

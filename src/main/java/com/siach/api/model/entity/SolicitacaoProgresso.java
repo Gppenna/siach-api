@@ -18,7 +18,7 @@ public class SolicitacaoProgresso {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "solicitacao_progresso_seq")
     @SequenceGenerator(name = "solicitacao_progresso_seq", sequenceName = "solicitacao_progresso_seq", allocationSize = 1)
     @Column(name = "id_solicitacao_progresso")
-    private Long id;
+    private Long idSolicitacaoProgresso;
 
     @Column(name = "id_status")
     private Long idStatus;

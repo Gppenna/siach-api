@@ -7,5 +7,7 @@ public interface UsuarioService {
 
     Usuario findByEmailAndSenha(String email, String senha);
     UsuarioResponseDTO findByEmail(String email);
+
+    Usuario findByIdUsuario(Long idUsuario);
     void temaToggle(String email);
 }

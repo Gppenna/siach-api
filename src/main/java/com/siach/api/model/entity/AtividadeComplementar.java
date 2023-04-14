@@ -18,7 +18,7 @@ public class AtividadeComplementar {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ATIVIDADE_COMPLEMENTAR_SEQ")
     @SequenceGenerator(name = "ATIVIDADE_COMPLEMENTAR_SEQ", sequenceName = "ATIVIDADE_COMPLEMENTAR_SEQ", allocationSize = 1)
     @Column(name = "id_atividade_complementar")
-    private Long id;
+    private Long idAtividadeComplementar;
 
     @Column(name = "descricao")
     private String descricao;

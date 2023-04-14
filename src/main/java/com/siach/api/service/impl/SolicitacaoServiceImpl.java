@@ -37,12 +37,12 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     public Solicitacao save(SolicitacaoRequestDTO solicitacaoRequestDTO) throws IOException {
 
         Solicitacao solicitacao = Solicitacao.builder()
-                .id(solicitacaoRequestDTO.getId())
+                .idSolicitacao(solicitacaoRequestDTO.getIdSolicitacao())
                 .horas(solicitacaoRequestDTO.getHoras())
                 .idAtividadeBarema(solicitacaoRequestDTO.getIdAtividadeBarema())
                 .comprovante(solicitacaoRequestDTO.getComprovante().getBytes())
                 .titulo(solicitacaoRequestDTO.getTitulo())
-                .idUsuario(usuarioService.findByEmail(solicitacaoRequestDTO.getEmail()).getId())
+                .idUsuario(usuarioService.findByEmail(solicitacaoRequestDTO.getEmail()).getIdUsuario())
                 .statusInterno(Objects.equals(solicitacaoRequestDTO.getStatusInterno(), "E") ?
                         StatusInternoEnum.EXCEDENTE.getKey() :
                         StatusInternoEnum.RASCUNHO.getKey())
@@ -62,11 +62,11 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 
         solicitacaoList.forEach(solicitacao -> {
             SolicitacaoResponseDTO solicitacaoResponseDTO = SolicitacaoResponseDTO.builder()
-                    .id(solicitacao.getId())
+                    .idSolicitacao(solicitacao.getIdSolicitacao())
                     .atividadeBarema(solicitacao.getAtividadeBarema())
                     .grupoBarema(solicitacao.getAtividadeBarema().getGrupoBarema())
                     .comprovante(solicitacao.getComprovante())
-                    .solicitacaoProgressoList(solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getId()))
+                    .solicitacaoProgressoList(solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getIdSolicitacao()))
                     .horas(solicitacao.getHoras())
                     .statusInterno(solicitacao.getStatusInterno())
                     .titulo(solicitacao.getTitulo())
@@ -82,11 +82,11 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
         Solicitacao solicitacao = solicitacaoRepository.findById(id).get();
 
         return SolicitacaoResponseDTO.builder()
-                .id(solicitacao.getId())
+                .idSolicitacao(solicitacao.getIdSolicitacao())
                 .atividadeBarema(solicitacao.getAtividadeBarema())
                 .grupoBarema(solicitacao.getAtividadeBarema().getGrupoBarema())
                 .comprovante(solicitacao.getComprovante())
-                .solicitacaoProgressoList(solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getId()))
+                .solicitacaoProgressoList(solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getIdSolicitacao()))
                 .horas(solicitacao.getHoras())
                 .statusInterno(solicitacao.getStatusInterno())
                 .titulo(solicitacao.getTitulo())
@@ -106,7 +106,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 
         solicitacaoList.forEach(solicitacao -> {
             SolicitacaoResponseDTO solicitacaoResponseDTO = SolicitacaoResponseDTO.builder()
-                    .id(solicitacao.getId())
+                    .idSolicitacao(solicitacao.getIdSolicitacao())
                     .atividadeBarema(solicitacao.getAtividadeBarema())
                     .grupoBarema(solicitacao.getAtividadeBarema().getGrupoBarema())
                     .comprovante(solicitacao.getComprovante())
@@ -122,7 +122,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 
     @Override
     public List<Solicitacao> ativar(List<Long> ids) {
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByIdIn(ids);
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByIdSolicitacaoIn(ids);
 
         solicitacaoList.forEach(solicitacao -> {
             if(!Objects.equals(solicitacao.getStatusInterno(), "E")) {
@@ -133,16 +133,16 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
             }
             SolicitacaoProgresso solicitacaoProgresso = SolicitacaoProgresso.builder()
                     .idStatus(1L)
-                    .idSolicitacao(solicitacao.getId())
+                    .idSolicitacao(solicitacao.getIdSolicitacao())
                     .dataCadastro(LocalDate.now())
                     .build();
             SolicitacaoProgresso solicitacaoProgresso2 = SolicitacaoProgresso.builder()
                     .idStatus(2L)
-                    .idSolicitacao(solicitacao.getId())
+                    .idSolicitacao(solicitacao.getIdSolicitacao())
                     .build();
             SolicitacaoProgresso solicitacaoProgresso3 = SolicitacaoProgresso.builder()
                     .idStatus(3L)
-                    .idSolicitacao(solicitacao.getId())
+                    .idSolicitacao(solicitacao.getIdSolicitacao())
                     .build();
             solicitacaoProgressoService.save(solicitacaoProgresso);
             solicitacaoProgressoService.save(solicitacaoProgresso2);

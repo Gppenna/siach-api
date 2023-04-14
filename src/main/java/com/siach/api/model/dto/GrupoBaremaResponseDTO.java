@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GrupoBaremaResponseDTO {
-    private Long id;
+    private Long idGrupoBarema;
     private String descricao;
     private Long minimoHoras;
     private Long numero;

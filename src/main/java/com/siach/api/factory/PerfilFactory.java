@@ -22,7 +22,7 @@ public final class PerfilFactory {
 
         grupoBaremaList.forEach(grupoBarema -> {
             HashMap<Long, PerfilBaremaResponseDTO> grupoBaremaMap = new HashMap<>();
-            grupoBaremaMap.put(grupoBarema.getId(), PerfilBaremaResponseDTO.builder()
+            grupoBaremaMap.put(grupoBarema.getIdGrupoBarema(), PerfilBaremaResponseDTO.builder()
                     .descricao(grupoBarema.getDescricao())
                     .horasLimite(grupoBarema.getMinimoHoras()).build());
 
@@ -73,7 +73,7 @@ public final class PerfilFactory {
             PerfilBaremaResponseDTO perfilBaremaResponseDTO = new PerfilBaremaResponseDTO();
             perfilBaremaResponseDTO.setHorasLimite(atividadeBarema.getMinimoHoras());
             perfilBaremaResponseDTO.setDescricao(atividadeBarema.getDescricao());
-            atividadeBaremaMap.put(atividadeBarema.getId(), perfilBaremaResponseDTO);
+            atividadeBaremaMap.put(atividadeBarema.getIdAtividadeBarema(), perfilBaremaResponseDTO);
         });
         return atividadeBaremaMap;
     }

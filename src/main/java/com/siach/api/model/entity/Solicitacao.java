@@ -1,10 +1,8 @@
 package com.siach.api.model.entity;
 
-import com.siach.api.enumeration.StatusInternoEnum;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -19,7 +17,7 @@ public class Solicitacao {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "solicitacao_seq")
     @SequenceGenerator(name = "solicitacao_seq", sequenceName = "solicitacao_seq", allocationSize = 1)
     @Column(name = "id_solicitacao")
-    private Long id;
+    private Long idSolicitacao;
 
     @Column(name = "id_usuario")
     private Long idUsuario;
