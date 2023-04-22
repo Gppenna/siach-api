@@ -26,7 +26,7 @@ public class PerfilController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<PerfilResponseDTO>> getAllPerfilSolicitacao(@PathVariable("id") Long id) {
+    public ResponseEntity<List<PerfilResponseDTO>> getAllPerfilSolicitacao(@PathVariable("id") Long id ) {
         return ResponseEntity.ok(perfilService.getAllPerfil(id));
     }
 
