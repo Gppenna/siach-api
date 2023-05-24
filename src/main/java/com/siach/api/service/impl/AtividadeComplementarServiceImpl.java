@@ -56,15 +56,19 @@ public class AtividadeComplementarServiceImpl implements AtividadeComplementarSe
         List<AtividadeComplementarResponseDTO> atividadeComplementarResponseDTOList = new ArrayList<>();
 
         for (AtividadeComplementar atividadeComplementar : atividadeComplementarList) {
-            List<Object> objectList = new ArrayList<>();
-            objectList.add(new AtividadeComplementarResponseDTO());
-            objectList.add(atividadeComplementar);
 
-            AtividadeComplementarResponseDTO atividadeComplementarResponseDTO =
-                    (AtividadeComplementarResponseDTO) MapperUtils.mergeObjects(objectList);
-            atividadeComplementarResponseDTO.setGrupoBarema(atividadeComplementar.getAtividadeBarema().getGrupoBarema());
+            AtividadeComplementarResponseDTO atividadeComplementarResponseDTO = AtividadeComplementarResponseDTO.builder()
+                    .descricao(atividadeComplementar.getDescricao())
+                    .titulo(atividadeComplementar.getTitulo())
+                    .periodoInicio(atividadeComplementar.getPeriodoInicio())
+                    .periodoFim(atividadeComplementar.getPeriodoFim())
+                    .grupoBarema(atividadeComplementar.getAtividadeBarema().getGrupoBarema())
+                    .atividadeBarema(atividadeComplementar.getAtividadeBarema())
+                    .horas(atividadeComplementar.getHoras())
+                    .imagem(atividadeComplementar.getImagem())
+                    .build();
 
-            atividadeComplementarResponseDTOList.add((AtividadeComplementarResponseDTO) MapperUtils.mergeObjects(objectList));
+            atividadeComplementarResponseDTOList.add(atividadeComplementarResponseDTO);
         }
 
         return new PageImpl<>(atividadeComplementarResponseDTOList, pageable, atividadeComplementarPage.getTotalPages());
