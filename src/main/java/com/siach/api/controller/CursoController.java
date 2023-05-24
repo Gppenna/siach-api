@@ -1,6 +1,8 @@
 package com.siach.api.controller;
 
 
+import com.siach.api.model.dto.AtividadeComplementarRequestDTO;
+import com.siach.api.model.dto.CursoRequestDTO;
 import com.siach.api.model.dto.SolicitacaoRequestDTO;
 import com.siach.api.model.dto.SolicitacaoResponseDTO;
 import com.siach.api.model.entity.Curso;
@@ -34,6 +36,11 @@ public class CursoController {
     @PutMapping("/editar-ch")
     public ResponseEntity<Curso> editarCH(@RequestBody Curso curso) {
         return ResponseEntity.ok(cursoService.editarCH(curso));
+    }
+
+    @PutMapping(value = "/editar-barema", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<Curso> editarBarema(@ModelAttribute CursoRequestDTO cursoRequestDTO) throws IOException {
+        return ResponseEntity.ok(cursoService.editarBarema(cursoRequestDTO));
     }
 
     @GetMapping("/list")

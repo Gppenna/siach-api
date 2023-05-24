@@ -24,4 +24,8 @@ public class Curso {
     @Column(name = "minimo_horas_curso")
     private Long minimoHorasCurso;
 
+    @Basic(optional = false,fetch = FetchType.LAZY)
+    @Column(name = "barema")
+    private byte[] barema;
+
 }

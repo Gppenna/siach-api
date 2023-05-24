@@ -9,5 +9,7 @@ public interface ParecerRepository extends JpaRepository<Parecer, Long> {
 
     List<Parecer> findByIdSolicitacao(Long idSolicitacao);
 
+    List<Parecer> findAllByIdSolicitacao(Long idSolicitacao);
+
 
 }

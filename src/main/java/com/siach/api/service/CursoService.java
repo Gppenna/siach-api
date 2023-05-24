@@ -1,5 +1,6 @@
 package com.siach.api.service;
 
+import com.siach.api.model.dto.CursoRequestDTO;
 import com.siach.api.model.dto.SolicitacaoRequestDTO;
 import com.siach.api.model.dto.SolicitacaoResponseDTO;
 import com.siach.api.model.entity.Curso;
@@ -10,6 +11,8 @@ import java.util.List;
 
 public interface CursoService {
     Curso editarCH(Curso curso);
+
+    Curso editarBarema(CursoRequestDTO cursoRequestDTO) throws IOException;
 
     List<Curso> findAll();
 }

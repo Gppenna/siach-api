@@ -30,7 +30,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioResponseDTO findByEmail(String email) {
         Usuario loggedUser = usuarioRepository.findByEmail(email);
         if(loggedUser != null) {
-            return (UsuarioResponseDTO) MapperUtils.mergeObjects(List.of(MapperUtils.instanciateObject(new UsuarioResponseDTO()), loggedUser));
+            return (UsuarioResponseDTO) MapperUtils.mergeObjects(List.of(MapperUtils.instantiateObject(new UsuarioResponseDTO()), loggedUser));
         }
         return UsuarioResponseDTO.builder().build();
 
