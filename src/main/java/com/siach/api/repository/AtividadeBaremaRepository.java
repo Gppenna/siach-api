@@ -14,7 +14,9 @@ public interface AtividadeBaremaRepository extends JpaRepository<AtividadeBarema
     List<AtividadeBarema> findByIdAtividadeBaremaIn(Set<Long> idAtividadeBarema);
 
     @Query("SELECT ab FROM AtividadeBarema ab JOIN ab.grupoBarema gb " +
-            "WHERE ( gb.idCurso = ?1 )")
-    List<AtividadeBarema> findAllByIdCurso(Long idCurso);
+            "WHERE ( gb.idCurso = ?1 ) " +
+            "Order by ab.descricao"
+    )
+    List<AtividadeBarema> findAllByIdCursoOrderByDescricaoDesc(Long idCurso);
 
 }

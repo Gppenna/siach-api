@@ -8,6 +8,6 @@ public interface PerfilService {
 
     List<PerfilResponseDTO> getAllPerfil(Long id);
 
-    List<PerfilResponseDTO> getPerfilById(Long id);
+    List<PerfilResponseDTO> getPerfilById(Long id, Long idUsuario);
 
 }

@@ -49,7 +49,7 @@ public class AtividadeBaremaServiceImpl implements AtividadeBaremaService {
 
     @Override
     public List<AtividadeBarema> getAll(Long idCurso) {
-        return atividadeBaremaRepository.findAllByIdCurso(idCurso);
+        return atividadeBaremaRepository.findAllByIdCursoOrderByDescricaoDesc(idCurso);
     }
 
     @Override

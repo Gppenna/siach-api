@@ -45,7 +45,7 @@ public class GrupoBaremaServiceImpl implements GrupoBaremaService {
 
     @Override
     public List<GrupoBaremaResponseDTO> getAll(Long idCurso) {
-        List<GrupoBarema> baremaList = grupoBaremaRepository.findAllByIdCurso(idCurso);
+        List<GrupoBarema> baremaList = grupoBaremaRepository.findAllByIdCursoOrderByDescricaoAsc(idCurso);
         List<GrupoBaremaResponseDTO> baremaDTOList = new ArrayList<>();
         baremaList.forEach(barema -> {
             List<AtividadeBarema> atividadeList = atividadeBaremaService.findByIdGrupoBarema(barema.getIdGrupoBarema());

@@ -30,9 +30,9 @@ public class PerfilController {
         return ResponseEntity.ok(perfilService.getAllPerfil(id));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<PerfilResponseDTO>> getById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(perfilService.getPerfilById(id));
+    @GetMapping("/{id}/{idUsuario}")
+    public ResponseEntity<List<PerfilResponseDTO>> getById(@PathVariable("id") Long idSolicitacao, @PathVariable("idUsuario") Long idUsuario) {
+        return ResponseEntity.ok(perfilService.getPerfilById(idSolicitacao, idUsuario));
     }
 
 

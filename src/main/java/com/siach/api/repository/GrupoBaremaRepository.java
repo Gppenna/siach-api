@@ -10,5 +10,5 @@ public interface GrupoBaremaRepository extends JpaRepository<GrupoBarema, Long> 
 
     Optional<GrupoBarema> findByIdGrupoBarema(Long idGrupoBarema);
 
-    List<GrupoBarema> findAllByIdCurso(Long idCurso);
+    List<GrupoBarema> findAllByIdCursoOrderByDescricaoAsc(Long idCurso);
 }
