@@ -48,23 +48,26 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                         StatusInternoEnum.ATIVO.getKey())
                 .comprovanteNome(solicitacaoRequestDTO.getComprovanteNome())
                 .build());
+        List<SolicitacaoProgresso> solicitacaoProgressoList = solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getIdSolicitacao());
+        if(solicitacaoProgressoList == null) {
+            SolicitacaoProgresso solicitacaoProgresso = SolicitacaoProgresso.builder()
+                    .idStatus(1L)
+                    .idSolicitacao(solicitacao.getIdSolicitacao())
+                    .dataCadastro(LocalDate.now())
+                    .build();
+            SolicitacaoProgresso solicitacaoProgresso2 = SolicitacaoProgresso.builder()
+                    .idStatus(2L)
+                    .idSolicitacao(solicitacao.getIdSolicitacao())
+                    .build();
+            SolicitacaoProgresso solicitacaoProgresso3 = SolicitacaoProgresso.builder()
+                    .idStatus(3L)
+                    .idSolicitacao(solicitacao.getIdSolicitacao())
+                    .build();
+            solicitacaoProgressoService.save(solicitacaoProgresso);
+            solicitacaoProgressoService.save(solicitacaoProgresso2);
+            solicitacaoProgressoService.save(solicitacaoProgresso3);
+        }
 
-        SolicitacaoProgresso solicitacaoProgresso = SolicitacaoProgresso.builder()
-                .idStatus(1L)
-                .idSolicitacao(solicitacao.getIdSolicitacao())
-                .dataCadastro(LocalDate.now())
-                .build();
-        SolicitacaoProgresso solicitacaoProgresso2 = SolicitacaoProgresso.builder()
-                .idStatus(2L)
-                .idSolicitacao(solicitacao.getIdSolicitacao())
-                .build();
-        SolicitacaoProgresso solicitacaoProgresso3 = SolicitacaoProgresso.builder()
-                .idStatus(3L)
-                .idSolicitacao(solicitacao.getIdSolicitacao())
-                .build();
-        solicitacaoProgressoService.save(solicitacaoProgresso);
-        solicitacaoProgressoService.save(solicitacaoProgresso2);
-        solicitacaoProgressoService.save(solicitacaoProgresso3);
         return solicitacao;
     }
 
