@@ -36,7 +36,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
     @Override
     public Solicitacao save(SolicitacaoRequestDTO solicitacaoRequestDTO) throws IOException {
 
-        Solicitacao solicitacao = Solicitacao.builder()
+        Solicitacao solicitacao = solicitacaoRepository.save(Solicitacao.builder()
                 .idSolicitacao(solicitacaoRequestDTO.getIdSolicitacao())
                 .horas(solicitacaoRequestDTO.getHoras())
                 .idAtividadeBarema(solicitacaoRequestDTO.getIdAtividadeBarema())
@@ -44,11 +44,28 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                 .titulo(solicitacaoRequestDTO.getTitulo())
                 .idUsuario(usuarioService.findByEmail(solicitacaoRequestDTO.getEmail()).getIdUsuario())
                 .statusInterno(Objects.equals(solicitacaoRequestDTO.getStatusInterno(), "E") ?
-                        StatusInternoEnum.EXCEDENTE.getKey() :
-                        StatusInternoEnum.RASCUNHO.getKey())
+                        StatusInternoEnum.EXCEDENTE_ATIVO.getKey() :
+                        StatusInternoEnum.ATIVO.getKey())
                 .comprovanteNome(solicitacaoRequestDTO.getComprovanteNome())
+                .build());
+
+        SolicitacaoProgresso solicitacaoProgresso = SolicitacaoProgresso.builder()
+                .idStatus(1L)
+                .idSolicitacao(solicitacao.getIdSolicitacao())
+                .dataCadastro(LocalDate.now())
                 .build();
-        return solicitacaoRepository.save(solicitacao);
+        SolicitacaoProgresso solicitacaoProgresso2 = SolicitacaoProgresso.builder()
+                .idStatus(2L)
+                .idSolicitacao(solicitacao.getIdSolicitacao())
+                .build();
+        SolicitacaoProgresso solicitacaoProgresso3 = SolicitacaoProgresso.builder()
+                .idStatus(3L)
+                .idSolicitacao(solicitacao.getIdSolicitacao())
+                .build();
+        solicitacaoProgressoService.save(solicitacaoProgresso);
+        solicitacaoProgressoService.save(solicitacaoProgresso2);
+        solicitacaoProgressoService.save(solicitacaoProgresso3);
+        return solicitacao;
     }
 
     @Override
@@ -57,7 +74,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
         statusList.add(StatusInternoEnum.ATIVO.getKey());
         statusList.add(StatusInternoEnum.EXCEDENTE_ATIVO.getKey());
         statusList.add(StatusInternoEnum.FINALIZADO.getKey());
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdUsuario(statusList, idUsuario);
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdUsuarioOrderByIdSolicitacaoDesc(statusList, idUsuario);
         List<SolicitacaoResponseDTO> solicitacaoResponseDTOList = new ArrayList<>();
 
         solicitacaoList.forEach(solicitacao -> {
@@ -95,63 +112,6 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                 .build();
     }
 
-    @Override
-    public List<SolicitacaoResponseDTO> getAllRascunho(Long idUsuario) {
-        List<String> statusInternos = new ArrayList<>();
-        statusInternos.add(StatusInternoEnum.RASCUNHO.getKey());
-        statusInternos.add(StatusInternoEnum.EXCEDENTE.getKey());
 
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdUsuario(statusInternos ,idUsuario);
-        List<SolicitacaoResponseDTO> solicitacaoResponseDTOList = new ArrayList<>();
-
-        solicitacaoList.forEach(solicitacao -> {
-            SolicitacaoResponseDTO solicitacaoResponseDTO = SolicitacaoResponseDTO.builder()
-                    .idSolicitacao(solicitacao.getIdSolicitacao())
-                    .atividadeBarema(solicitacao.getAtividadeBarema())
-                    .grupoBarema(solicitacao.getAtividadeBarema().getGrupoBarema())
-                    .comprovante(solicitacao.getComprovante())
-                    .horas(solicitacao.getHoras())
-                    .statusInterno(solicitacao.getStatusInterno())
-                    .titulo(solicitacao.getTitulo())
-                    .comprovanteNome(solicitacao.getComprovanteNome())
-                    .build();
-            solicitacaoResponseDTOList.add(solicitacaoResponseDTO);
-        });
-        return solicitacaoResponseDTOList;
-    }
-
-    @Override
-    public List<Solicitacao> ativar(List<Long> ids) {
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByIdSolicitacaoIn(ids);
-
-        solicitacaoList.forEach(solicitacao -> {
-            if(!Objects.equals(solicitacao.getStatusInterno(), "E")) {
-                solicitacao.setStatusInterno(StatusInternoEnum.ATIVO.getKey());
-            }
-            else {
-                solicitacao.setStatusInterno(StatusInternoEnum.EXCEDENTE_ATIVO.getKey());
-            }
-            SolicitacaoProgresso solicitacaoProgresso = SolicitacaoProgresso.builder()
-                    .idStatus(1L)
-                    .idSolicitacao(solicitacao.getIdSolicitacao())
-                    .dataCadastro(LocalDate.now())
-                    .build();
-            SolicitacaoProgresso solicitacaoProgresso2 = SolicitacaoProgresso.builder()
-                    .idStatus(2L)
-                    .idSolicitacao(solicitacao.getIdSolicitacao())
-                    .build();
-            SolicitacaoProgresso solicitacaoProgresso3 = SolicitacaoProgresso.builder()
-                    .idStatus(3L)
-                    .idSolicitacao(solicitacao.getIdSolicitacao())
-                    .build();
-            solicitacaoProgressoService.save(solicitacaoProgresso);
-            solicitacaoProgressoService.save(solicitacaoProgresso2);
-            solicitacaoProgressoService.save(solicitacaoProgresso3);
-
-        });
-        solicitacaoRepository.saveAll(solicitacaoList);
-
-        return solicitacaoList;
-    }
 
 }

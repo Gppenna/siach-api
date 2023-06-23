@@ -39,10 +39,9 @@ public class PerfilServiceImpl implements PerfilService {
     public List<PerfilResponseDTO> getAllPerfil(Long id) {
         List<String> statusInterno = new ArrayList<>();
         statusInterno.add(StatusInternoEnum.FINALIZADO.getKey());
-        statusInterno.add(StatusInternoEnum.RASCUNHO.getKey());
         statusInterno.add(StatusInternoEnum.ATIVO.getKey());
 
-        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdUsuario(statusInterno, id);
+        List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdUsuarioOrderByIdSolicitacaoDesc(statusInterno, id);
 
         List<GrupoBaremaResponseDTO> grupoBaremaList = grupoBaremaService.getAll(usuarioService.findByIdUsuario(id).getIdCurso());
 
@@ -53,7 +52,6 @@ public class PerfilServiceImpl implements PerfilService {
     public List<PerfilResponseDTO> getPerfilById(Long id, Long idUsuario) {
         List<String> statusInterno = new ArrayList<>();
         statusInterno.add(StatusInternoEnum.FINALIZADO.getKey());
-        statusInterno.add(StatusInternoEnum.RASCUNHO.getKey());
         statusInterno.add(StatusInternoEnum.ATIVO.getKey());
 
         List<Solicitacao> solicitacaoList = solicitacaoRepository.findByStatusInternoInAndIdAtividadeBaremaAndIdUsuario(statusInterno, id, idUsuario);

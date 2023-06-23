@@ -35,19 +35,9 @@ public class SolicitacaoController {
         return ResponseEntity.ok(solicitacaoService.save(solicitacaoRequestDTO));
     }
 
-    @PutMapping("/ativar")
-    public ResponseEntity<List<Solicitacao>> ativar(@RequestBody List<Long> ids) {
-        return ResponseEntity.ok(solicitacaoService.ativar(ids));
-    }
-
     @GetMapping("/table/{id}")
     public ResponseEntity<List<SolicitacaoResponseDTO>> getAll(@PathVariable("id") Long id) {
         return ResponseEntity.ok(solicitacaoService.getAll(id));
-    }
-
-    @GetMapping("/table/rascunho/{id}")
-    public ResponseEntity<List<SolicitacaoResponseDTO>> getAllRascunho(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(solicitacaoService.getAllRascunho(id));
     }
 
     @GetMapping("detalhe/{id}")

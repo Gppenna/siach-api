@@ -1,7 +1,6 @@
 package com.siach.api.enumeration;
 
 public enum StatusInternoEnum {
-    RASCUNHO("R", "Rascunho"),
     FINALIZADO("F", "Finalizado"),
     EXCEDENTE("E", "Excedente"),
     EXCEDENTE_ATIVO("X", "Excedente Ativo"),
