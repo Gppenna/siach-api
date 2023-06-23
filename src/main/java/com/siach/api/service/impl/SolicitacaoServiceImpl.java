@@ -49,7 +49,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
                 .comprovanteNome(solicitacaoRequestDTO.getComprovanteNome())
                 .build());
         List<SolicitacaoProgresso> solicitacaoProgressoList = solicitacaoProgressoService.findByIdSolicitacao(solicitacao.getIdSolicitacao());
-        if(solicitacaoProgressoList == null) {
+        if(solicitacaoProgressoList.isEmpty()) {
             SolicitacaoProgresso solicitacaoProgresso = SolicitacaoProgresso.builder()
                     .idStatus(1L)
                     .idSolicitacao(solicitacao.getIdSolicitacao())
